@@ -1,19 +1,10 @@
-debian@debian:~$ sudo a2ensite despliegue-apache.conf
-Site despliegue-apache already enabled
-debian@debian:~$ systemctl reload apache2
-Job for apache2.service failed.
-See "systemctl status apache2.service" and "journalctl -xeu apache2.service" for details.
-debian@debian:~$ systemctl status apache2.service
-● apache2.service - The Apache HTTP Server
-     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; preset: enab>
-     Active: active (running) since Wed 2024-11-20 12:44:49 CET; 3h 41min ago
-       Docs: https://httpd.apache.org/docs/2.4/
-    Process: 5977 ExecReload=/usr/sbin/apachectl graceful (code=exited, status=>
-   Main PID: 3837 (apache2)
-      Tasks: 55 (limit: 2284)
-     Memory: 10.3M
-        CPU: 564ms
-     CGroup: /system.slice/apache2.service
-             ├─3837 /usr/sbin/apache2 -k start
-             ├─3839 /usr/sbin/apache2 -k start
-             └─3840 /usr/sbin/apache2 -k start
+</VirtualHost>
+        ServerAdmin despliegue-apache@localhost
+        ServerName despliegue-apache
+        ServerAlias www.1a
+        DocumentRoot /var/www/despliegue-apache/ejemplo2
+
+        ErrorLog ${APACHẸ_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
