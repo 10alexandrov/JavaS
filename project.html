@@ -1,19 +1,10 @@
-<script>
-
-    window.onload = () => {
-        const buttons = document.querySelectorAll('.edit');
-        const inputs = document.querySelectorAll('.form-control');
-
-        buttons.forEach(button => {
-            button.addEventListener('click', function() {
-                const buttonId = Number (event.target.id);
-                inputs.classList.add('d-none');
-                console.log (buttonId);
-            })
-        })
-        console.log (inputs);
-    }
-</script>
+inputs.forEach(input => {
+                    if (Number(input.id) == buttonId) {
+                        input.removeAttribute('disabled');
+                    } else {
+                        input.addAttribute('disabled');
+                    }
+                })
 
 
 
