@@ -1,10 +1,25 @@
-inputs.forEach(input => {
-                    if (Number(input.id) == buttonId) {
-                        input.removeAttribute('disabled');
-                    } else {
-                        input.addAttribute('disabled');
-                    }
-                })
+debian@debian:/etc/apache2/sites-available$ sudo apache2ctl -S
+VirtualHost configuration:
+*:443                  despliegue-apache (/etc/apache2/sites-enabled/despliegue-apache-ssl.conf:2)
+*:80                   is a NameVirtualHost
+         default server debian.debian (/etc/apache2/sites-enabled/000-default.conf:1)
+         port 80 namevhost debian.debian (/etc/apache2/sites-enabled/000-default.conf:1)
+         port 80 namevhost despliegue-apache (/etc/apache2/sites-enabled/despliegue-apache.conf:1)
+                 alias www.1a
+ServerRoot: "/etc/apache2"
+Main DocumentRoot: "/var/www/html"
+Main ErrorLog: "/var/log/apache2/error.log"
+Mutex watchdog-callback: using_defaults
+Mutex ssl-stapling-refresh: using_defaults
+Mutex ssl-stapling: using_defaults
+Mutex ssl-cache: using_defaults
+Mutex default: dir="/var/run/apache2/" mechanism=default 
+PidFile: "/var/run/apache2/apache2.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=33
+Group: name="www-data" id=33
+
 
 
 
