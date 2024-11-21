@@ -1,41 +1,42 @@
-<table class="table table-bordered text-center">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Alias</th>
-                                        <th scope="col">Identificador</th>
-                                        <th scope="col">Auxiliar</th>
-                                        <th scope="col"><a class="btn btn-primary w-100 btn-ttl"
-                                            href="{{ route('machines.create') }}">+</a></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($machines as $machine)
-                                        <tr class="user-row">
-                                            <form action="{{ route('machines.update', $machine->id) }}" method="POST" autocomplete="off">
-                                                @csrf
-                                                @method('PUT')
-                                                    <td>
-                                                        <input type="text" class="" name = "alias" id="{{$machine -> id}}" disabled
-                                                            value = {{ $machine->alias}}>
-                                                    </td>
-                                                    <td>{{ $machine->identificador }}</td>
-                                                    <td>
-                                                        <input type="text" class="w-50" id="{{ $machine -> id}}" name ="auxilar"
-                                                            value = {{ $machine->auxiliar}}>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex">
-                                                            <button type="submit" class="btn btn-primary w-100 btn-in">Editar</button>
-                                                            <a class="btn btn-danger w-100 btn-inf ms-2" data-bs-toggle="modal"
-                                                                data-bs-target="#modalAccionesLocal{{ $machine->id }}">Eliminar</a>
-                                                        </div>
-                                                    </td>
+    public function update(Request $request, Machine $machine)
+    {
 
-                                            </form>
-                                        </tr>
+        dd ($request);
 
-                                    @endforeach
-                                </tbody>
-                            </table>
+        $request->validate([
+            'name' => ['required'],
+            'alias' => ['required'],
+            'model' => ['required'],
+            'codigo' => ['required', 'regex:/^[A-Za-z0-9]{3}$/'],
+            'serie' => ['required', 'regex:/^\d{2}( [A-Za-z]|[A-Za-z]{2})$/'],
+            'numero' => ['required', 'digits:6'],
+            //'local' => ['required'],
+        ], [
+            'name.required' => 'El nombre de la máquina es obligatorio.',
+            'alias.required' => 'El alias de la máquina es obligatorio.',
+            'model.required' => 'El modelo de la máquina es obligatorio.',
+            'codigo.required' => 'El código de la máquina es obligatorio.',
+            'codigo.regex' => 'El código debe ser una cadena de exactamente 3 caracteres alfanuméricos.',
+            'serie.required' => 'La serie de la máquina es obligatoria.',
+            'serie.regex' => 'La serie debe ser una cadena de 4 caracteres, con los primeros 2 siendo números y los últimos 2 siendo dos letras o un espacio seguido de una letra.',
+            'numero.required' => 'El número de la máquina es obligatorio.',
+            'numero.digits' => 'El número debe tener exactamente 6 dígitos.',
+            //'local.required' => 'El local de la máquina es obligatorio.',
+        ]);
 
+        $local = explode(":", $request->local);
+        $identificador = $request->model . ':' . $request->codigo . ':' . $request->serie . ':' . $request->numero;
 
+        $machine->identificador = $identificador;
+        $machine->name = $request->name;
+        $machine->alias = $request->alias;
+
+        $machine->local_id = 1;
+        $machine->bar_id = 1;
+        $machine->delegation_id = $request->delegation_id;
+
+        $machine->timestamps = false;
+
+        $machine->save();
+        return redirect()->route('machines.index', $request->delegation_id);
+    }
