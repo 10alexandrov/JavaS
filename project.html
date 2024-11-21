@@ -1,4 +1,27 @@
-    public function update(Request $request, Machine $machine)
+ $request->validate([
+
+            'alias' => ['required'],
+
+            'auxiliar' => ['auxiliar', 'numeric']
+
+        ], [
+
+            'alias.required' => 'El alias de la máquina es obligatorio.',
+
+            'auxiliar.required' => 'El número de la máquina es obligatorio.',
+
+            'auxiliar.numeric' => 'En esta campo solo dígitos.'
+
+        ]);
+
+BadMethodCallException
+Method Illuminate\Validation\Validator::validateAuxiliar does not exist.
+
+
+
+
+
+public function update(Request $request, Machine $machine)
     {
 
         dd ($request);
