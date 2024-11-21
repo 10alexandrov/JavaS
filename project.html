@@ -1,18 +1,41 @@
-sudo nano /etc/ufw/applications.d/apache2
+<table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Alias</th>
+                                        <th scope="col">Identificador</th>
+                                        <th scope="col">Auxiliar</th>
+                                        <th scope="col"><a class="btn btn-primary w-100 btn-ttl"
+                                            href="{{ route('machines.create') }}">+</a></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($machines as $machine)
+                                        <tr class="user-row">
+                                            <form action="{{ route('machines.update', $machine->id) }}" method="POST" autocomplete="off">
+                                                @csrf
+                                                @method('PUT')
+                                                    <td>
+                                                        <input type="text" class="" name = "alias" id="{{$machine -> id}}" disabled
+                                                            value = {{ $machine->alias}}>
+                                                    </td>
+                                                    <td>{{ $machine->identificador }}</td>
+                                                    <td>
+                                                        <input type="text" class="w-50" id="{{ $machine -> id}}" name ="auxilar"
+                                                            value = {{ $machine->auxiliar}}>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <button type="submit" class="btn btn-primary w-100 btn-in">Editar</button>
+                                                            <a class="btn btn-danger w-100 btn-inf ms-2" data-bs-toggle="modal"
+                                                                data-bs-target="#modalAccionesLocal{{ $machine->id }}">Eliminar</a>
+                                                        </div>
+                                                    </td>
 
-[Apache]
-title=Web Server
-description=Apache Web Server
-ports=80/tcp
+                                            </form>
+                                        </tr>
 
-[Apache Secure]
-title=Web Server (HTTPS)
-description=Apache Web Server (HTTPS)
-ports=443/tcp
-
-[Apache Full]
-title=Web Server (HTTP,HTTPS)
-description=Apache Web Server (HTTP,HTTPS)
-ports=80,443/tcp
+                                    @endforeach
+                                </tbody>
+                            </table>
 
 
