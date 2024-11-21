@@ -1,12 +1,7 @@
 debian@debian:~$ sudo apache2ctl -S
 VirtualHost configuration:
+*:443                  almacen (/etc/apache2/sites-enabled/almacen-ssl.conf:2)
 *:80                   almacen (/etc/apache2/sites-enabled/almacen.conf:1)
-*:443                  is a NameVirtualHost
-         default server almacen (/etc/apache2/sites-enabled/almacen-ssl.conf:2)
-         port 443 namevhost almacen (/etc/apache2/sites-enabled/almacen-ssl.conf:2)
-                 alias www.almacen
-         port 443 namevhost despliegue-apache (/etc/apache2/sites-enabled/despliegue-apache-ssl.conf:2)
-                 alias www.1a
 ServerRoot: "/etc/apache2"
 Main DocumentRoot: "/var/www/html"
 Main ErrorLog: "/var/log/apache2/error.log"
