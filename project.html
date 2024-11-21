@@ -1,20 +1,16 @@
-debian@debian:~$ sudo apache2ctl -S
-VirtualHost configuration:
-*:443                  almacen (/etc/apache2/sites-enabled/almacen-ssl.conf:2)
-*:80                   almacen (/etc/apache2/sites-enabled/almacen.conf:1)
-ServerRoot: "/etc/apache2"
-Main DocumentRoot: "/var/www/html"
-Main ErrorLog: "/var/log/apache2/error.log"
-Mutex watchdog-callback: using_defaults
-Mutex ssl-stapling-refresh: using_defaults
-Mutex ssl-stapling: using_defaults
-Mutex ssl-cache: using_defaults
-Mutex default: dir="/var/run/apache2/" mechanism=default 
-PidFile: "/var/run/apache2/apache2.pid"
-Define: DUMP_VHOSTS
-Define: DUMP_RUN_CFG
-User: name="www-data" id=33
-Group: name="www-data" id=33
+<VirtualHost *:80>
+    ServerName almacen
+    DocumentRoot /var/www/almacen
+
+    <Directory /var/www/almacen>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/almacen_error.log
+    CustomLog ${APACHE_LOG_DIR}/almacen_access.log combined
+</VirtualHost>
 
 
 
