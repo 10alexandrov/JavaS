@@ -1,4 +1,11 @@
-curl -I http://192.168.18.61/despliegue-apache/ejemplo2/index.html
+<VirtualHost *:80>
+ ServerAdmin despliegue-apache@localhost
+ ServerName despliegue-apache
+ ServerAlias www.despliegue-apache
+ DocumentRoot /var/www/despliegue-apache/ejemplo2
+ ErrorLog ${APACHE_LOG_DIR}/error.log
+ CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
 
 
 
