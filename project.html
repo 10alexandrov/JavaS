@@ -1,21 +1,19 @@
-$request->validate([
-            'alias.' . $id => ['required'],
-            'auxiliar.' . $id => ['required', 'numeric', 'unique:machines,auxiliar,' . $id]
-        ], [
-            'alias.' . $id . '.required' => 'El alias de la máquina es obligatorio.',
-            'auxiliar.' . $id . '.required' => 'El número de la máquina es obligatorio.',
-            'auxiliar.' . $id . '.numeric' => 'En este campo solo deben ir dígitos.',
-            'auxiliar.' . $id . '.unique' => "Este número ya está en uso."
-        ]);
+<script>
 
-<td>
-                                                        <input type="text" class="form-control w-50 @error('alias.' .$machine->id) is-invalid @enderror" name = "alias" id="{{$machine -> id}}"
-                                                            value = "{{ $machine->alias}}">
-                                                        @error('alias.' .$machine->id)
-                                                            {{'alias.' .$machine->id}}
-                                                            <div class="invalid-feedback"> {{ $message }} </div>
-                                                        @enderror
-                                                    </td>
+    window.onload = () => {
+        const buttons = document.querySelectorAll('.edit');
+        const inputs = document.querySelectorAll('.form-control');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const buttonId = Number (event.target.id);
+                inputs.classList.add('d-none');
+                console.log (buttonId);
+            })
+        })
+        console.log (inputs);
+    }
+</script>
 
 
 
