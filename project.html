@@ -1,16 +1,4 @@
-<IfModule mod_ssl.c>
-<VirtualHost *:443>
- ServerAdmin despliegue-apache@localhost
- ServerName despliegue-apache
- ServerAlias www.despliegue-apache
- DocumentRoot /var/www/despliegue-apache/ejemplo2
- SSLEngine on
- SSLCertificateFile /etc/ssl/certs/despliegue-apache.crt
- SSLCertificateKeyFile /etc/ssl/private/despliegue-apache.key
- ErrorLog ${APACHE_LOG_DIR}/error.log
- CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-</IfModule>
+sudo rm /etc/apache2/sites-available/despliegue-apache.conf
 
 
 
