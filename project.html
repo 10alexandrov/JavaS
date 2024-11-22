@@ -1,6 +1,22 @@
-count(): Argument #1 ($value) must be of type Countable|array, App\Models\Delegation given (View: C:\Users\Magarin\miniprometeo\resources\views\configuracion\index.blade.php)
 
-@if (count($data['delegation']) === 1 )
+                        <td>
+                            {{$data['delegation'] -> name}}
+                        </td>
+                        <td>
+                            @if (count($data['zones']) === 1 )
+                                {{$data['zones'][0] -> name }}
+                            @else
+                                <select name="zones" class="@error('zones') is-invalid @enderror">
+                                    <option value =""> == Elije una Zona ==</option>
+                                    @foreach ($data['zones'] as $zona)
+                                        <option value = "{{$zona -> id}}">{{$zona -> name}} </option>
+                                    @endforeach
+                                </select>
+                                @error('zones')
+                                    <div class="invalid-feedback"> {{ $message }} </div>
+                                @enderror
+                            @endif
+                        </td>
 
 
 
