@@ -1,6 +1,4 @@
-
-Route::resource('configuracion', ConfiguracionController::class)->names('configuracion');
-Route [configuracion] not defined.
+SQLSTATE[42000]: Syntax error or access violation: 1701 Cannot truncate a table referenced in a foreign key constraint (`miniprometeo`.`locals`, CONSTRAINT `locals_zone_id_foreign` FOREIGN KEY (`zone_id`) REFERENCES `miniprometeo`.`zones` (`id`)) (SQL: truncate table `zones`)
 
 
 
