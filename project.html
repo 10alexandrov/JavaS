@@ -1,7 +1,8 @@
-SQLSTATE[42000]: Syntax error or access violation: 1701 Cannot truncate a table referenced in a foreign key constraint (`miniprometeo`.`locals`, CONSTRAINT `locals_zone_id_foreign` FOREIGN KEY (`zone_id`) REFERENCES `miniprometeo`.`zones` (`id`)) (SQL: truncate table `zones`)
+PS C:\Users\Magarin\miniprometeo> php artisan db:seed --class=LocalSeeder
 
+   Illuminate\Database\QueryException 
 
-
+  SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`miniprometeo`.`locals`, CONSTRAINT `locals_zone_id_foreign` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) (SQL: insert into `locals` (`name`, `idMachines`, `zone_id`, `dbconection`, `updated_at`, `created_at`) values (Muchamiel, 1640, 1, [{"name":"Conexi\u00f3n principal","ip":"213.96.203.239","port":"2069","database":"ticketserver","username":"ccm","password":"ccm10"}], 2024-11-22 17:30:33, 2024-11-22 17:30:33))
 
 
 
