@@ -1,8 +1,17 @@
+debian@debian:~$ sudo dpkg -i webmin_1.960_all.deb
+(Leyendo la base de datos ... 245594 ficheros o directorios instalados actualmente.)
+Preparando para desempaquetar webmin_1.960_all.deb ...
+Desempaquetando webmin (1.960) sobre (1.960) ...
+Configurando webmin (1.960) ...
 Webmin install complete. You can now login to https://debian:10000/
 as root with your root password, or as any user who can use sudo
 to run commands as root.
-Procesando disparadores para man-db (2.11.2-2) ...
+debian@debian:~$ sudo systemctl status webmin
+Unit webmin.service could not be found.
+debian@debian:~$ sudo systemctl start webmin
+Failed to start webmin.service: Unit webmin.service not found.
 debian@debian:~$ 
+
 
 
 
