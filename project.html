@@ -1,16 +1,13 @@
-<VirtualHost *:80>
-    ServerName almacen
-    DocumentRoot /var/www/almacen
+    public function index()
+    {
+        $user_cambio = User::where('name','ccm') -> first();
+        $user_comDataHost = User::where('name','admin') -> first();
+        $locales = Local::all();
+        $zones=Zone::all();
+        $delegacion = Delegation::where('name', 'Benidorm') -> first();
 
-    <Directory /var/www/almacen>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    ErrorLog ${APACHE_LOG_DIR}/almacen_error.log
-    CustomLog ${APACHE_LOG_DIR}/almacen_access.log combined
-</VirtualHost>
+        return view('configuracion.index', compact('user_cambio','user_comDataHost' ));
+    }
 
 
 
