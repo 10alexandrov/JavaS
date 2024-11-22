@@ -1,22 +1,7 @@
 
-                        <td>
-                            {{$data['delegation'] -> name}}
-                        </td>
-                        <td>
-                            @if (count($data['zones']) === 1 )
-                                {{$data['zones'][0] -> name }}
-                            @else
-                                <select name="zones" class="@error('zones') is-invalid @enderror">
-                                    <option value =""> == Elije una Zona ==</option>
-                                    @foreach ($data['zones'] as $zona)
-                                        <option value = "{{$zona -> id}}">{{$zona -> name}} </option>
-                                    @endforeach
-                                </select>
-                                @error('zones')
-                                    <div class="invalid-feedback"> {{ $message }} </div>
-                                @enderror
-                            @endif
-                        </td> 
+$local = Local::find($data['locales']);
+        Local::truncate();
+        $local -> save();
 
 
 
