@@ -1,13 +1,6 @@
-    public function index()
-    {
-        $user_cambio = User::where('name','ccm') -> first();
-        $user_comDataHost = User::where('name','admin') -> first();
-        $locales = Local::all();
-        $zones=Zone::all();
-        $delegacion = Delegation::where('name', 'Benidorm') -> first();
+count(): Argument #1 ($value) must be of type Countable|array, App\Models\Delegation given (View: C:\Users\Magarin\miniprometeo\resources\views\configuracion\index.blade.php)
 
-        return view('configuracion.index', compact('user_cambio','user_comDataHost' ));
-    }
+@if (count($data['delegation']) === 1 )
 
 
 
