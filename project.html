@@ -1,21 +1,12 @@
-debian@debian:~$ sudo systemctl start mariadb
-Job for mariadb.service failed because the control process exited with error code.
-See "systemctl status mariadb.service" and "journalctl -xeu mariadb.service" for details.
-debian@debian:~$ systemctl status mariadb.service
-× mariadb.service - MariaDB 10.11.6 database server
-     Loaded: loaded (/lib/systemd/system/mariadb.service; enabled; preset: enab>
-     Active: failed (Result: exit-code) since Sun 2024-11-24 14:42:41 CET; 1min>
-   Duration: 23h 12min 57.682s
-       Docs: man:mariadbd(8)
-             https://mariadb.com/kb/en/library/systemd/
-    Process: 133362 ExecStartPre=/usr/bin/install -m 755 -o mysql -g root -d /v>
-    Process: 133363 ExecStartPre=/bin/sh -c systemctl unset-environment _WSREP_>
-    Process: 133365 ExecStartPre=/bin/sh -c [ ! -e /usr/bin/galera_recovery ] &>
-    Process: 133424 ExecStart=/usr/sbin/mariadbd $MYSQLD_OPTS $_WSREP_NEW_CLUST>
-   Main PID: 133424 (code=exited, status=1/FAILURE)
-     Status: "MariaDB server is down"
-        CPU: 182ms
-
+sudo apt remove --purge mariadb-server mariadb-client
+Установите MariaDB заново:
+bash
+Копировать код
+sudo apt install mariadb-server mariadb-client
+После установки попробуйте запустить MariaDB:
+bash
+Копировать код
+sudo systemctl start mariadb
 2. Установите зависимости
 VS Code требует несколько зависимостей. Установите их:
 
