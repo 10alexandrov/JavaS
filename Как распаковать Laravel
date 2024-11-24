@@ -1,0 +1,105 @@
+Вот пошаговая инструкция, как распаковать и переместить файл **alumnoL.zip** в нужную директорию:
+
+---
+
+### **1. Перейдите в папку с архивом**
+Откройте терминал и перейдите в директорию **Descargas**:
+```bash
+cd ~/Descargas
+```
+
+---
+
+### **2. Распакуйте архив**
+Распакуйте содержимое архива **alumnoL.zip**:
+```bash
+unzip alumnoL.zip -d alumnoL
+```
+- Команда распакует содержимое архива в папку **alumnoL** внутри директории **Descargas**.
+- Если команда `unzip` не установлена, выполните:
+  ```bash
+  sudo apt install unzip
+  ```
+
+---
+
+### **3. Переместите проект в директорию сервера Apache**
+Создайте целевую директорию **almacen** в папке Apache:
+```bash
+sudo mkdir -p /var/www/almacen
+```
+
+Переместите содержимое распакованного проекта в эту директорию:
+```bash
+sudo mv alumnoL/* /var/www/almacen
+```
+
+Проверьте, что все файлы скопированы:
+```bash
+ls /var/www/almacen
+```
+
+---
+
+### **4. Настройте права доступа**
+Убедитесь, что веб-сервер Apache имеет доступ к проекту:
+```bash
+sudo chown -R www-data:www-data /var/www/almacen
+sudo chmod -R 755 /var/www/almacen
+```
+
+---
+
+### **5. Настройте виртуальный хост Apache**
+Создайте виртуальный хост для проекта Laravel:
+1. Откройте файл конфигурации:
+   ```bash
+   sudo nano /etc/apache2/sites-available/almacen.conf
+   ```
+2. Добавьте конфигурацию:
+   ```apache
+   <VirtualHost *:80>
+       ServerName almacen.local
+       DocumentRoot /var/www/almacen/public
+
+       <Directory /var/www/almacen>
+           AllowOverride All
+           Require all granted
+       </Directory>
+
+       ErrorLog ${APACHE_LOG_DIR}/almacen_error.log
+       CustomLog ${APACHE_LOG_DIR}/almacen_access.log combined
+   </VirtualHost>
+   ```
+3. Активируйте виртуальный хост:
+   ```bash
+   sudo a2ensite almacen.conf
+   ```
+
+4. Перезапустите Apache:
+   ```bash
+   sudo systemctl restart apache2
+   ```
+
+---
+
+### **6. Обновите файл `/etc/hosts` (для локального тестирования)**
+Если вы тестируете проект на локальной машине, добавьте запись для домена **almacen.local**:
+```bash
+sudo nano /etc/hosts
+```
+
+Добавьте строку:
+```plaintext
+127.0.0.1 almacen.local
+```
+
+---
+
+### **7. Проверьте доступность проекта**
+Откройте браузер и перейдите по адресу:
+```plaintext
+http://almacen.local
+```
+
+Если всё сделано правильно, вы увидите ваш проект Laravel.
