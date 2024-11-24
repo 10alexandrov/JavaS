@@ -1,3 +1,20 @@
+Failed to stop mysql.service: Unit mysql.service not loaded.
+invoke-rc.d: initscript mysql, action "stop" failed.
+Attempt to stop MariaDB/MySQL server returned exitcode 5
+There is a MariaDB/MySQL server running, but we failed in our attempts to stop i
+t.
+Stop it yourself and try again!
+dpkg: error al procesar el archivo /var/cache/apt/archives/mariadb-server_1%3a10
+.11.6-0+deb12u1_amd64.deb (--unpack):
+ el subproceso nuevo paquete mariadb-server script pre-installation devolvió el 
+código de salida de error 1
+Se encontraron errores al procesar:
+ /var/cache/apt/archives/mariadb-server_1%3a10.11.6-0+deb12u1_amd64.deb
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+
+
+
 sudo apt remove --purge mariadb-server mariadb-client
 Установите MariaDB заново:
 bash
