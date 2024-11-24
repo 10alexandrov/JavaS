@@ -1,3 +1,13 @@
+sudo apt-get purge mariadb-server mariadb-client mariadb-common mariadb-server-core-10.3 mariadb-client-core-10.3
+Удалите все конфигурационные файлы и директории, оставшиеся после удаления:
+bash
+Копировать код
+sudo rm -rf /etc/mysql /var/lib/mysql /var/log/mysql /var/log/mysql.* /usr/lib/mysql /usr/share/mysql
+Очистите кэш пакетов:
+bash
+Копировать код
+sudo apt-get clean
+
 debian@debian:~$ sudo pkill -9 mysqld
 debian@debian:~$ sudo systemctl status mariadb
 × mariadb.service
