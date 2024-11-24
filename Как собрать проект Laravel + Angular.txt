@@ -1,0 +1,294 @@
+Для размещения проекта, состоящего из Laravel (бэкэнд) и Angular (фронтэнд) на сервере Apache, следуйте этим шагам:
+
+---
+
+### **1. Подготовка сервера**
+Убедитесь, что установлены все необходимые компоненты:
+- Apache2
+- PHP (с требуемыми модулями для Laravel, например, `php-mysql`, `php-bcmath`, `php-json`, и т. д.)
+- MariaDB/MySQL (для базы данных Laravel)
+- Node.js и npm (для Angular, если проект еще не был собран).
+
+---
+
+### **2. Настройка Laravel (Бэкэнд)**
+#### **2.1. Скопируйте Laravel в каталог Apache**
+1. Разместите код Laravel в директории, например, `/var/www/laravel-backend`.
+
+#### **2.2. Настройте `.env`**
+1. Укажите параметры подключения к базе данных в `.env`:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=your_database_name
+   DB_USERNAME=your_database_user
+   DB_PASSWORD=your_password
+   ```
+2. Выполните миграции базы данных:
+   ```bash
+   php artisan migrate
+   ```
+
+#### **2.3. Настройте права доступа**
+Убедитесь, что у Laravel есть права записи в директории `storage` и `bootstrap/cache`:
+```bash
+sudo chown -R www-data:www-data /var/www/laravel-backend
+sudo chmod -R 775 /var/www/laravel-backend/storage /var/www/laravel-backend/bootstrap/cache
+```
+
+#### **2.4. Настройте Apache для Laravel**
+Создайте новый файл виртуального хоста:
+```bash
+sudo nano /etc/apache2/sites-available/laravel-backend.conf
+```
+
+Пример содержимого:
+```apache
+<VirtualHost *:80>
+    ServerName backend.example.com
+    DocumentRoot /var/www/laravel-backend/public
+
+    <Directory /var/www/laravel-backend/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/laravel-backend-error.log
+    CustomLog ${APACHE_LOG_DIR}/laravel-backend-access.log combined
+</VirtualHost>
+```
+
+Активируйте конфигурацию:
+```bash
+sudo a2ensite laravel-backend.conf
+sudo systemctl restart apache2
+```
+
+---
+
+### **3. Настройка Angular (Фронтэнд)**
+#### **3.1. Соберите Angular**
+Соберите Angular проект для продакшена:
+```bash
+ng build --prod
+```
+Результат сборки будет находиться в папке `dist/your-angular-project`.
+
+#### **3.2. Скопируйте Angular в каталог Apache**
+Скопируйте содержимое папки сборки в директорию, например, `/var/www/angular-frontend`:
+```bash
+sudo cp -r dist/your-angular-project/* /var/www/angular-frontend
+```
+
+#### **3.3. Настройте Apache для Angular**
+Создайте новый файл виртуального хоста:
+```bash
+sudo nano /etc/apache2/sites-available/angular-frontend.conf
+```
+
+Пример содержимого:
+```apache
+<VirtualHost *:80>
+    ServerName frontend.example.com
+    DocumentRoot /var/www/angular-frontend
+
+    <Directory /var/www/angular-frontend>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/angular-frontend-error.log
+    CustomLog ${APACHE_LOG_DIR}/angular-frontend-access.log combined
+</VirtualHost>
+```
+
+Активируйте конфигурацию:
+```bash
+sudo a2ensite angular-frontend.conf
+sudo systemctl restart apache2
+```
+
+---
+
+### **4. Настройка связи между Laravel и Angular**
+1. **API маршруты Laravel**  
+   Убедитесь, что маршруты для API в Laravel настроены и доступны через, например, `backend.example.com/api`.
+
+2. **Настройка API URL в Angular**  
+   В Angular измените URL в сервисах или переменных окружения (файл `environment.prod.ts`):
+   ```typescript
+   export const environment = {
+       production: true,
+       apiUrl: 'http://backend.example.com/api'
+   };
+   ```
+
+3. Пересоберите Angular:
+   ```bash
+   ng build --prod
+   ```
+
+4. Убедитесь, что CORS разрешен на стороне Laravel:
+   В файле `app/Http/Middleware/Cors.php` или через библиотеку `fruitcake/laravel-cors`.
+
+---
+
+### **5. Тестирование**
+1. Перейдите на `http://frontend.example.com` для тестирования Angular.
+2. Проверьте, что запросы API успешно обрабатываются через `http://backend.example.com/api`.
+
+---
+
+Теперь ваш Laravel + Angular проект готов к работе на сервере Apache.
+
+
+Чтобы разместить Laravel и Angular в одной директории `/var/www/almacen`, можно организовать их структуру так, чтобы оба приложения функционировали корректно. Вот пример структуры и пути для доступа:
+
+---
+
+### **1. Предлагаемая структура файлов**
+```
+/var/www/almacen/
+├── backend/             # Laravel (бэкэнд)
+│   ├── app/
+│   ├── bootstrap/
+│   ├── config/
+│   ├── database/
+│   ├── public/          # Laravel отвечает через этот каталог
+│   ├── resources/
+│   ├── routes/
+│   ├── storage/
+│   ├── artisan
+│   └── .env
+├── frontend/            # Angular (фронтэнд)
+│   ├── assets/
+│   ├── favicon.ico
+│   ├── index.html       # Точка входа Angular
+│   ├── main.js
+│   └── styles.css
+```
+
+- **`backend/`** — Laravel проект (весь код Laravel, включая папку `public`, будет храниться здесь).
+- **`frontend/`** — Angular проект (собранные файлы из `dist/your-angular-project` копируются сюда).
+
+---
+
+### **2. Настройка Apache для работы Laravel и Angular**
+Создайте два виртуальных хоста: один для Angular (фронтэнд), другой для Laravel (бэкэнд).
+
+#### **2.1. Виртуальный хост для Angular**
+Создайте конфигурацию Apache для Angular:
+```bash
+sudo nano /etc/apache2/sites-available/almacen-frontend.conf
+```
+
+Добавьте следующее содержимое:
+```apache
+<VirtualHost *:80>
+    ServerName frontend.example.com
+    DocumentRoot /var/www/almacen/frontend
+
+    <Directory /var/www/almacen/frontend>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/frontend-error.log
+    CustomLog ${APACHE_LOG_DIR}/frontend-access.log combined
+
+    # Убедитесь, что Angular работает с маршрутизацией
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ /index.html [L]
+</VirtualHost>
+```
+
+Активируйте этот хост:
+```bash
+sudo a2ensite almacen-frontend.conf
+sudo systemctl reload apache2
+```
+
+#### **2.2. Виртуальный хост для Laravel**
+Создайте конфигурацию Apache для Laravel:
+```bash
+sudo nano /etc/apache2/sites-available/almacen-backend.conf
+```
+
+Добавьте следующее содержимое:
+```apache
+<VirtualHost *:80>
+    ServerName backend.example.com
+    DocumentRoot /var/www/almacen/backend/public
+
+    <Directory /var/www/almacen/backend/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/backend-error.log
+    CustomLog ${APACHE_LOG_DIR}/backend-access.log combined
+</VirtualHost>
+```
+
+Активируйте этот хост:
+```bash
+sudo a2ensite almacen-backend.conf
+sudo systemctl reload apache2
+```
+
+---
+
+### **3. Доступ к проекту через браузер**
+- **Angular (фронтэнд)**:  
+  Открывайте в браузере адрес:
+  ```
+  http://frontend.example.com
+  ```
+  Angular будет загружаться из `/var/www/almacen/frontend`.
+
+- **Laravel (бэкэнд)**:  
+  Открывайте в браузере адрес:
+  ```
+  http://backend.example.com/api
+  ```
+  Laravel будет обрабатывать API-запросы через `backend/public`.
+
+---
+
+### **4. Особенности маршрутизации**
+#### **4.1. CORS для взаимодействия**
+На стороне Laravel настройте CORS для разрешения запросов с фронтэнда:
+- Установите пакет:
+  ```bash
+  composer require fruitcake/laravel-cors
+  ```
+- Настройте `config/cors.php`, чтобы разрешить запросы с домена Angular:
+  ```php
+  'paths' => ['api/*'],
+  'allowed_origins' => ['http://frontend.example.com'],
+  ```
+
+#### **4.2. API-URL в Angular**
+В файле `environment.prod.ts` Angular укажите правильный URL для API:
+```typescript
+export const environment = {
+  production: true,
+  apiUrl: 'http://backend.example.com/api'
+};
+```
+
+Пересоберите Angular:
+```bash
+ng build --prod
+```
+
+---
+
+### **5. Итог**
+- **Структура**: Laravel в `/var/www/almacen/backend`, Angular в `/var/www/almacen/frontend`.
+- **Адреса**:  
+  - Angular: `http://frontend.example.com`  
+  - Laravel API: `http://backend.example.com/api`.
