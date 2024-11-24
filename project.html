@@ -1,3 +1,25 @@
+debian@debian:~$ sudo pkill -9 mysqld
+debian@debian:~$ sudo systemctl status mariadb
+× mariadb.service
+     Loaded: not-found (Reason: Unit mariadb.service not found.)
+     Active: failed (Result: exit-code) since Sun 2024-11-24 14:42:41 CET; 45mi>
+   Duration: 23h 12min 57.682s
+   Main PID: 133424 (code=exited, status=1/FAILURE)
+     Status: "MariaDB server is down"
+        CPU: 182ms
+
+nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [ERROR] InnoDB: >
+nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [Note] InnoDB: S>
+nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [ERROR] Plugin '>
+nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [Note] Plugin 'F>
+nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [ERROR] Could no>
+nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [ERROR] Failed t>
+nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [ERROR] Aborting
+nov 24 14:42:41 debian systemd[1]: mariadb.service: Main process exited, code=e>
+nov 24 14:42:41 debian systemd[1]: mariadb.service: Failed with result 'exit-co>
+nov 24 14:42:41 debian systemd[1]: Failed to start mariadb.service - MariaDB 10>
+lines 1-18/18 (END)
+
 Failed to stop mysql.service: Unit mysql.service not loaded.
 invoke-rc.d: initscript mysql, action "stop" failed.
 Attempt to stop MariaDB/MySQL server returned exitcode 5
