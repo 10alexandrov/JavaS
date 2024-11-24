@@ -1,5 +1,6 @@
-  The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
-The exception occurred while attempting to log: The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
+debian@debian:/var/www/almacen/backend$ ls -l storage/logs
+total 3168
+-rwxrwxr-x 1 www-data www-data 3237283 nov 24 18:01 laravel.log
 
 debian@debian:/var/www/almacen/backend$ ps aux | grep apache2
 root      125173  0.0  0.5 281104 11232 ?        Ss   17:47   0:00 /usr/sbin/apache2 -k start
