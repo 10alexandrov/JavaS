@@ -1,14 +1,9 @@
 https://disk.yandex.ru/d/7y6_-7YVPgfFoQ
 
-debian@debian:/var/www/almacen/backend$ php artisan key:generate
-
-   UnexpectedValueException 
-
-  The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
-The exception occurred while attempting to log: The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
-The exception occurred while attempting to log: file_get_contents(/var/www/almacen/backend/.env): Failed to open stream: No such file or directory
-Context: {"exception":{}}
-Context: {"exception":{}}
+sudo chown -R www-data:www-data /var/www/almacen/backend/storage
+sudo chown -R www-data:www-data /var/www/almacen/backend/bootstrap/cache
+sudo chmod -R 775 /var/www/almacen/backend/storage
+sudo chmod -R 775 /var/www/almacen/backend/bootstrap/cache
 
   at vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php:149
     145▕             }
