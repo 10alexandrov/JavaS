@@ -1,11 +1,39 @@
-Failed to set session cookie. Maybe you are using HTTP instead of HTTPS to access phpMyAdmin.
+2. Установите зависимости
+VS Code требует несколько зависимостей. Установите их:
 
-MariaDB [mysql]> UPDATE user SET authentication_string=PASSWORD('debian') WHERE
-User='root';
-ERROR 1356 (HY000): View 'mysql.user' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them
-MariaDB [mysql]> UPDATE user SET password=PASSWORD('debian') WHERE User='root';
-ERROR 1356 (HY000): View 'mysql.user' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them
+bash
+Копировать код
+sudo apt install software-properties-common apt-transport-https wget
+3. Добавьте репозиторий Microsoft
+Загрузите и установите ключ для репозитория Microsoft:
 
+bash
+Копировать код
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
+Теперь добавьте репозиторий Microsoft в список источников пакетов:
+
+bash
+Копировать код
+echo "deb [signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+4. Обновите индекс пакетов
+После добавления репозитория обновите индекс пакетов:
+
+bash
+Копировать код
+sudo apt update
+5. Установите Visual Studio Code
+Теперь установите Visual Studio Code:
+
+bash
+Копировать код
+sudo apt install code
+6. Запуск Visual Studio Code
+После установки вы можете запустить VS Code из терминала, набрав:
+
+bash
+Копировать код
+code
+Или найдите его в меню приложений.
 bash
 Копировать код
 sudo systemctl stop mariadb
