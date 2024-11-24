@@ -1,5 +1,16 @@
-debian@debian:~$ sudo a2enconf phpmyadmin
-ERROR: Conf phpmyadmin does not exist!
+Alias /phpmyadmin /usr/share/phpmyadmin
+
+<Directory /usr/share/phpmyadmin>
+    Options FollowSymLinks
+    DirectoryIndex index.php
+    AllowOverride All
+    Require all granted
+</Directory>
+
+<Directory /usr/share/phpmyadmin/setup>
+    Require all denied
+</Directory>
+
 
 sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
 
