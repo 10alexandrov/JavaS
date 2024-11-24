@@ -1,3 +1,10 @@
+<Directory /usr/share/phpmyadmin>
+    Options FollowSymLinks
+    DirectoryIndex index.php
+
+    . . .
+</Directory>
+
 sudo apt-get purge mariadb-server mariadb-client mariadb-common mariadb-server-core-10.3 mariadb-client-core-10.3
 Удалите все конфигурационные файлы и директории, оставшиеся после удаления:
 bash
