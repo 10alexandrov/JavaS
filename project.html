@@ -1,7 +1,29 @@
 https://disk.yandex.ru/d/7y6_-7YVPgfFoQ
 
-debian@debian:/var/www/almacen$ wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
-bash: /usr/share/keyrings/microsoft-archive-keyring.gpg: Permiso denegado
+debian@debian:/var/www/almacen/backend$ php artisan key:generate
+
+   UnexpectedValueException 
+
+  The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
+The exception occurred while attempting to log: The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
+The exception occurred while attempting to log: file_get_contents(/var/www/almacen/backend/.env): Failed to open stream: No such file or directory
+Context: {"exception":{}}
+Context: {"exception":{}}
+
+  at vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php:149
+    145▕             }
+    146▕             if (!is_resource($stream)) {
+    147▕                 $this->stream = null;
+    148▕ 
+  ➜ 149▕                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened in append mode: '.$this->errorMessage, $url) . Utils::getRecordMessageForException($record));
+    150▕             }
+    151▕             stream_set_chunk_size($stream, $this->streamChunkSize);
+    152▕             $this->stream = $stream;
+    153▕         }
+
+      +9 vendor frames 
+  10  [internal]:0
+
 
 
 sudo apt-get purge mariadb-server mariadb-client mariadb-common mariadb-server-core-10.3 mariadb-client-core-10.3
