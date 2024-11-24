@@ -1,9 +1,6 @@
-<Directory /usr/share/phpmyadmin>
-    Options FollowSymLinks
-    DirectoryIndex index.php
+debian@debian:/var/www/almacen$ wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
+bash: /usr/share/keyrings/microsoft-archive-keyring.gpg: Permiso denegado
 
-    . . .
-</Directory>
 
 sudo apt-get purge mariadb-server mariadb-client mariadb-common mariadb-server-core-10.3 mariadb-client-core-10.3
 Удалите все конфигурационные файлы и директории, оставшиеся после удаления:
