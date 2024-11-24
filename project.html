@@ -1,8 +1,7 @@
-debian@debian:/var/www/almacen/backend$ sudo lsof | grep laravel.log
-lsof: WARNING: can't stat() fuse.gvfsd-fuse file system /run/user/1000/gvfs
-      Output information may be incomplete.
-lsof: WARNING: can't stat() fuse.portal file system /run/user/1000/doc
-      Output information may be incomplete.
+sudo rm /var/www/almacen/backend/storage/logs/laravel.log
+sudo touch /var/www/almacen/backend/storage/logs/laravel.log
+sudo chown www-data:www-data /var/www/almacen/backend/storage/logs/laravel.log
+sudo chmod 664 /var/www/almacen/backend/storage/logs/laravel.log
 
 debian@debian:/var/www/almacen/backend$ ps aux | grep apache2
 root      125173  0.0  0.5 281104 11232 ?        Ss   17:47   0:00 /usr/sbin/apache2 -k start
