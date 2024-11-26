@@ -6,6 +6,13 @@ INSERT INTO `categorias` (`id_categoria`, `c_nombre`, `created_at`, `updated_at`
 (5, 'Alcohol', NULL, NULL),
 (6, 'Snack', NULL, NULL);
 
+ls -l /etc/apache2/conf-enabled/phpmyadmin.conf
+Если файла нет, создайте символическую ссылку:
+
+bash
+Копировать код
+sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-enabled/phpmyadmin.conf
+
 
 
 https://disk.yandex.ru/d/7y6_-7YVPgfFoQ
