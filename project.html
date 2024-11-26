@@ -1,27 +1,8 @@
 https://disk.yandex.ru/d/IY-VyD7tjNdtsg
 
-debian@debian:/var/www/almacen/frontend$ npm install
-npm ERR! code EACCES
-npm ERR! syscall open
-npm ERR! path /var/www/almacen/frontend/package-lock.json
-npm ERR! errno -13
-npm ERR! Error: EACCES: permission denied, open '/var/www/almacen/frontend/package-lock.json'
-npm ERR!  [Error: EACCES: permission denied, open '/var/www/almacen/frontend/package-lock.json'] {
-npm ERR!   errno: -13,
-npm ERR!   code: 'EACCES',
-npm ERR!   syscall: 'open',
-npm ERR!   path: '/var/www/almacen/frontend/package-lock.json'
-npm ERR! }
-npm ERR! 
-npm ERR! The operation was rejected by your operating system.
-npm ERR! It is likely you do not have the permissions to access this file as the current user
-npm ERR! 
-npm ERR! If you believe this might be a permissions issue, please double-check the
-npm ERR! permissions of the file and its containing directories, or try running
-npm ERR! the command again as root/Administrator.
+sudo chown -R $USER:$USER /var/www/almacen/frontend
 
-npm ERR! A complete log of this run can be found in:
-npm ERR!     /home/debian/.npm/_logs/2024-11-26T16_01_14_297Z-debug-0.log
+sudo chmod -R 775 /var/www/almacen/frontend
 
 
 
