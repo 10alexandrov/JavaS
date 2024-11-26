@@ -1,61 +1,33 @@
-sudo nano /etc/apache2/conf-available/phpmyadmin.conf
-Добавьте в него:
-
-apache
-Копировать код
-Alias /phpmyadmin /usr/share/phpmyadmin
-
-<Directory /usr/share/phpmyadmin>
-    Options FollowSymLinks
-    DirectoryIndex index.php
-    AllowOverride None
-    Require all granted
-</Directory>
-Затем активируйте конфигурацию:
-
-bash
-Копировать код
-sudo a2enconf phpmyadmin
-sudo systemctl reload apache2
-
-
-INSERT INTO `categorias` (`id_categoria`, `c_nombre`, `created_at`, `updated_at`) VALUES
-(1, 'Bebidas', NULL, NULL),
-(2, 'Cereales', NULL, NULL),
-(3, 'Enlatada', NULL, NULL),
-(4, 'Pasteleria', NULL, NULL),
-(5, 'Alcohol', NULL, NULL),
-(6, 'Snack', NULL, NULL);
-
-ls -l /etc/apache2/conf-enabled/phpmyadmin.conf
-Если файла нет, создайте символическую ссылку:
-
-bash
-Копировать код
-sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-enabled/phpmyadmin.conf
-
-
-
-https://disk.yandex.ru/d/7y6_-7YVPgfFoQ
-
-sudo chown -R www-data:www-data /var/www/almacen/backend/storage
-sudo chown -R www-data:www-data /var/www/almacen/backend/bootstrap/cache
-sudo chmod -R 775 /var/www/almacen/backend/storage
-sudo chmod -R 775 /var/www/almacen/backend/bootstrap/cache
-
-  at vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php:149
-    145▕             }
-    146▕             if (!is_resource($stream)) {
-    147▕                 $this->stream = null;
-    148▕ 
-  ➜ 149▕                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened in append mode: '.$this->errorMessage, $url) . Utils::getRecordMessageForException($record));
-    150▕             }
-    151▕             stream_set_chunk_size($stream, $this->streamChunkSize);
-    152▕             $this->stream = $stream;
-    153▕         }
-
-      +9 vendor frames 
-  10  [internal]:0
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(2, 'Agua minerale', 1, 'El agua mineral es agua que contiene minerales u otras sustancias disueltas que le dan un valor terapéutico.', 50, 50, 200, 550, '', 763, -23, 60, 671, '1.00', '2.00', 0, '1234567899874', 1200, 660, '2024-08-15 12:09:30', '2024-10-30 16:43:15'),
+(3, 'Agua minerale 0.7', 1, NULL, 60, 60, 250, 1500, NULL, 301, -91, -60, 171, '2.00', '3.00', 1, '1236547896548', 1200, 1800, '2024-08-15 12:10:39', '2024-10-30 16:40:40'),
+(5, 'Agua minerale 1l', 1, NULL, 56, 56, 250, 564, '', 9543, -9341, -10, 211, '2.00', '3.00', 1, '1236547489541', 1100, 620, '2024-08-15 18:19:18', '2024-11-12 11:49:44'),
+(6, 'Cerveza Heinken', 5, NULL, 52, 52, 180, 650, '', 266, -82, 0, 101, '1.00', '2.00', 1, '1236544558998', 2000, 1300, '2024-08-16 05:21:38', '2024-10-30 16:40:40'),
+(7, 'Milk lacteado', 1, NULL, 70, 70, 250, 1000, 'images/HS9o3AxpjU9JXyagRN6OE8ZTLa05eUyZ2BABaMd2.jpg', 1815, -302, 0, 0, '2.00', '3.00', 1, '1236547995899', 600, 0, '2024-08-16 11:32:34', '2024-10-27 20:17:33'),
+(14, 'Leche 1,67l', 1, NULL, 60, 60, 210, 1800, NULL, 411, -410, 0, 20, '1.23', '2.31', 1, '1222555555444', 600, 1080, '2024-09-22 16:43:14', '2024-10-30 15:45:53');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(20, 'Vodka Absolut 0.7l', 5, NULL, 110, 110, 250, 1400, '', 1210, -20, -5, 25, '12.50', '24.55', 1, '4563219877892', 1400, 1960, '2024-10-09 14:30:53', '2024-11-12 11:49:44');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(25, 'Chips Lays', 6, NULL, 20, 50, 300, 250, '', 1550, -300, 0, 3010, '0.75', '1.55', 1, '1223654985268', 1500, 375, '2024-10-09 15:51:34', '2024-10-28 09:43:18');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(26, 'Cereales  de trigo integral', 2, NULL, 80, 200, 300, 850, '', 0, 0, 0, 0, '0.85', '1.80', 1, '3698521477896', 1200, 1020, '2024-10-14 06:26:58', '2024-10-18 12:30:54');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(27, 'Cereales de arroz', 2, NULL, 205, 65, 305, 550, '', 0, 100, 0, 0, '0.95', '1.85', 1, '7896541236987', 1200, 660, '2024-10-14 06:32:12', '2024-10-26 14:52:55');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(28, 'Cereales Avena Crunchy Hacendado', 2, NULL, 88, 205, 310, 500, '', 0, 140, 0, 0, '0.85', '1.45', 1, '7896542314552', 1000, 500, '2024-10-14 06:37:00', '2024-10-26 14:52:55');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(29, 'Guisantes Bonduelle', 3, NULL, 60, 60, 120, 400, '', 280, 0, 80, 140, '0.85', '1.45', 1, '7896541236542', 2400, 960, '2024-10-14 07:05:07', '2024-10-30 16:40:40');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(30, 'Maiz dulce elatado 425g', 3, NULL, 70, 70, 120, 455, '', 0, 100, 0, 0, '0.55', '1.21', 1, '1236547896589', 2500, 1138, '2024-10-14 07:09:12', '2024-10-26 14:52:55');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(31, 'Judias verdes', 3, NULL, 70, 70, 120, 400, '', '2024-10-23 13:43:32');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(32, 'Chips Lays classic', 6, NULL, 158, 50, 305, 250, '', 380, 0, 20, 100, '0.89', '1.45', 1, '4569871236548', 1000, 250, '2024-10-14 07:16:38', '2024-10-22 16:39:37'),
+(33, 'Pringles Original Flavored', 6, NULL, 75, 74, 250, 450, '', 0, 0, 0, 0, '0.89', '1.99', 1, '1569875425536', 1200, 540, '2024-10-14 07:19:14', '2024-10-18 12:34:29');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(34, 'Sugus Caramelo', 4, NULL, 70, 30, 70, 155, '', 280, 0, 40, 180, '0.45', '1.25', 1, '4563218526954', 2000, 310, '2024-10-14 07:56:19', '2024-10-30 16:40:40');
+INSERT INTO `productos` (`product_id`, `p_nombre`, `p_categoria`, `p_descripcion`, `p_ancho`, `p_longitud`, `p_altura`, `p_peso`, `p_foto`, `p_cantidad_almacen`, `p_cantidad_entrega`, `p_cantidad_reservado`, `p_cantidad_enviado`, `p_precio_compra`, `p_precio_venta`, `p_activo`, `p_codigo`, `p_cantidad_palet`, `p_peso_palet`, `created_at`, `updated_at`) VALUES
+(35, 'Vodka Absolut Original 1l', 5, 'Vodka muy buena', 70, 70, 250, 1300, '', 0, 0, 0, 0, '15.00', '25.00', 0, '1236878787454', 1200, 1560, '2024-10-16 12:12:21', '2024-10-18 12:35:13');
 
 
 
