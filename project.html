@@ -1,17 +1,10 @@
-Access to fetch at 'http://localhost/api/user/login' from origin 'http://almacen' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: The 'Access-Control-Allow-Origin' header has a value 'http://localhost:4200' that is not equal to the supplied origin. Have the server send the header with a valid value, or, if an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
-
-
-
-
-
-
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ /index.html [L]
-</IfModule>
+INSERT INTO `categorias` (`id_categoria`, `c_nombre`, `created_at`, `updated_at`) VALUES
+(1, 'Bebidas', NULL, NULL),
+(2, 'Cereales', NULL, NULL),
+(3, 'Enlatada', NULL, NULL),
+(4, 'Pasteleria', NULL, NULL),
+(5, 'Alcohol', NULL, NULL),
+(6, 'Snack', NULL, NULL);
 
 
 
