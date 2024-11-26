@@ -1,4 +1,5 @@
-The exception occurred while attempting to log: file_put_contents(/var/www/almacen/backend/.env): Failed to open stream: Permission denied 
+sudo chown www-data:www-data /var/www/almacen/backend/.env
+sudo chmod 664 /var/www/almacen/backend/.env
 
 debian@debian:~$ sudo pkill -9 mysqld
 debian@debian:~$ sudo systemctl status mariadb
