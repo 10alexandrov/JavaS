@@ -1,3 +1,27 @@
+debian@debian:/etc/apache2/conf-enabled$ sudo apachectl -S
+VirtualHost configuration:
+*:443                  almacen (/etc/apache2/sites-enabled/almacen-ssl.conf:2)
+*:80                   is a NameVirtualHost
+         default server almacen.admin (/etc/apache2/sites-enabled/almacen-admin.conf:1)
+         port 80 namevhost almacen.admin (/etc/apache2/sites-enabled/almacen-admin.conf:1)
+         port 80 namevhost almacen (/etc/apache2/sites-enabled/almacen.conf:1)
+ServerRoot: "/etc/apache2"
+Main DocumentRoot: "/var/www/html"
+Main ErrorLog: "/var/log/apache2/error.log"
+Mutex watchdog-callback: using_defaults
+Mutex rewrite-map: using_defaults
+Mutex ssl-stapling-refresh: using_defaults
+Mutex ssl-stapling: using_defaults
+Mutex ssl-cache: using_defaults
+Mutex default: dir="/var/run/apache2/" mechanism=default 
+Mutex mpm-accept: using_defaults
+PidFile: "/var/run/apache2/apache2.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=33
+Group: name="www-data" id=33
+
+
 INSERT INTO `categorias` (`id_categoria`, `c_nombre`, `created_at`, `updated_at`) VALUES
 (1, 'Bebidas', NULL, NULL),
 (2, 'Cereales', NULL, NULL),
