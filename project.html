@@ -1,9 +1,41 @@
-"SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`miniprometeo`.`machines`, CONSTRAINT `machines_delegation_id_foreign` FOREIGN KEY (`delegation_id`) REFERENCES `delegations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) (SQL: insert into `machines` (`name`, `alias`, `local_id`, `bar_id`, `delegation_id`, `identificador`, `r_auxiliar`, `updated_at`, `created_at`) values (RULETA COMATEL 1000, RULETA, 1, ?, 1, B:RG8:18 V:000113, 30, 2024-11-27 09:38:52, 2024-11-27 09:38:52)) ◀"
-  The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
-The exception occurred while attempting to log: The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
-The exception occurred while attempting to log: file_put_contents(/var/www/almacen/backend/.env): Failed to open stream: Permission denied
-Context: {"exception":{}}
-Context: {"exception":{}}
+        Schema::create('machines', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('alias');
+            $table->integer('r_auxiliar')->unsigned()->nullable()->check('r_auxilar >= 1 AND r_auxilar <= 50');
+
+            // Id machine en prometeo
+            $table->integer('prometeo_id') ->nullable();
+
+
+
+            // Relación opcional con la tabla locals
+            $table->foreignId('local_id')
+                ->nullable()
+                ->constrained('locals')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            // Relación opcional con la tabla bars
+            $table->foreignId('bar_id')
+                ->nullable()
+                ->constrained('bars')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreignId('delegation_id')
+                ->nullable()
+                ->constrained('delegations')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->string('identificador');
+
+            // Definir un campo tipo que indica si es parent (1) o roulette (2)
+            $table->enum('type', ['parent', 'roulette', 'single'])->nullable();
+
+            // Campo para asociar hijos a una máquina (ya sea tipo parent o roulette)
+            $table->foreignId('parent_id')->nullable()->constrained('machines', 'prometeo_id')->cascadeOnDelete();
 
   at vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php:149
     145▕             }
