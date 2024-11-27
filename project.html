@@ -1,41 +1,8 @@
-        Schema::create('machines', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('alias');
-            $table->integer('r_auxiliar')->unsigned()->nullable()->check('r_auxilar >= 1 AND r_auxilar <= 50');
+ // Campo para asociar hijos a una máquina (ya sea tipo parent o roulette)
+            $table ->foreignId('parent_id') ->nullable();
+            $table->foreign('parent_id')-> references ('prometeo_id') -> on ('machines') ->cascadeOnDelete();
 
-            // Id machine en prometeo
-            $table->integer('prometeo_id') ->nullable();
-
-
-
-            // Relación opcional con la tabla locals
-            $table->foreignId('local_id')
-                ->nullable()
-                ->constrained('locals')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-
-            // Relación opcional con la tabla bars
-            $table->foreignId('bar_id')
-                ->nullable()
-                ->constrained('bars')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-
-            $table->foreignId('delegation_id')
-                ->nullable()
-                ->constrained('delegations')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-
-            $table->string('identificador');
-
-            // Definir un campo tipo que indica si es parent (1) o roulette (2)
-            $table->enum('type', ['parent', 'roulette', 'single'])->nullable();
-
-            // Campo para asociar hijos a una máquina (ya sea tipo parent o roulette)
-            $table->foreignId('parent_id')->nullable()->constrained('machines', 'prometeo_id')->cascadeOnDelete();
+PS C:\Users\Magarin\miniprometeo>   SQLSTATE[HY000]: General error: 1005 Can't create table `miniprometeo`.`machines` (errno: 150 "Foreign key constraint is incorrectly formed") (SQL: alter table `machines` add constraint `machines_parent_id_foreign` foreign key (`parent_id`) references `machines` (`prometeo_id`) on delete cascade)
 
   at vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php:149
     145▕             }
