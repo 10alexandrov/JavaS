@@ -1,16 +1,4 @@
-<VirtualHost *:80>
-    ServerName almacen
-    DocumentRoot /var/www/almacen/frontend/browser/
-
-    <Directory /var/www/almacen/frontend/browser/>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    ErrorLog ${APACHE_LOG_DIR}/almacen_error.log
-    CustomLog ${APACHE_LOG_DIR}/almacen_access.log combined
-</VirtualHost>
+RedirectMatch 301 ^/$ /inicio
 
 
 PS C:\Users\Magarin\miniprometeo>   SQLSTATE[HY000]: General error: 1005 Can't create table `miniprometeo`.`machines` (errno: 150 "Foreign key constraint is incorrectly formed") (SQL: alter table `machines` add constraint `machines_parent_id_foreign` foreign key (`parent_id`) references `machines` (`prometeo_id`) on delete cascade)
