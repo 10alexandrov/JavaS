@@ -1,33 +1,8 @@
-RedirectMatch 301 ^/$ /inicio
+!!! **** RedirectMatch 301 ^/$ /inicio
+
+Mixed Content: The page at 'https://almacen/login' was loaded over HTTPS, but requested an insecure resource 'http://almacen-admin/api/user/login'. This request has been blocked; the content must be served over HTTPS.
 
 
-PS C:\Users\Magarin\miniprometeo>   SQLSTATE[HY000]: General error: 1005 Can't create table `miniprometeo`.`machines` (errno: 150 "Foreign key constraint is incorrectly formed") (SQL: alter table `machines` add constraint `machines_parent_id_foreign` foreign key (`parent_id`) references `machines` (`prometeo_id`) on delete cascade)
-
-  at vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php:149
-    145▕             }
-    146▕             if (!is_resource($stream)) {
-    147▕                 $this->stream = null;
-    148▕ 
-  ➜ 149▕                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened in append mode: '.$this->errorMessage, $url) . Utils::getRecordMessageForException($record));
-    150▕             }
-    151▕             stream_set_chunk_size($stream, $this->streamChunkSize);
-    152▕             $this->stream = $stream;
-    153▕         }
-
-      +9 vendor frames 
-  10  [internal]:0
-      Illuminate\Foundation\Bootstrap\HandleExceptions::handleException()
-debian@debian:/var/www/almacen/backend$ df -h
-S.ficheros     Tamaño Usados  Disp Uso% Montado en
-udev             1,9G      0  1,9G   0% /dev
-tmpfs            392M   1,3M  391M   1% /run
-/dev/sda1         19G   8,0G  9,7G  45% /
-tmpfs            2,0G    91M  1,9G   5% /dev/shm
-tmpfs            5,0M   8,0K  5,0M   1% /run/lock
-tmpfs            392M   108K  392M   1% /run/user/1000
-debian@debian:/var/www/almacen/backend$ tail -f /var/log/apache2/error.log
-tail: no se puede abrir '/var/log/apache2/error.log' para lectura: Permiso denegado
-tail: no queda ningún fichero
 
 
 nov 24 14:42:41 debian mariadbd[133424]: 2024-11-24 14:42:41 0 [ERROR] InnoDB: >
