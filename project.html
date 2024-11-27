@@ -1,6 +1,4 @@
-"Http failure response for http://localhost/api/productos: 401 Unauthorized"
-   UnexpectedValueException 
-
+"SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`miniprometeo`.`machines`, CONSTRAINT `machines_delegation_id_foreign` FOREIGN KEY (`delegation_id`) REFERENCES `delegations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) (SQL: insert into `machines` (`name`, `alias`, `local_id`, `bar_id`, `delegation_id`, `identificador`, `r_auxiliar`, `updated_at`, `created_at`) values (RULETA COMATEL 1000, RULETA, 1, ?, 1, B:RG8:18 V:000113, 30, 2024-11-27 09:38:52, 2024-11-27 09:38:52)) ◀"
   The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
 The exception occurred while attempting to log: The stream or file "/var/www/almacen/backend/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied
 The exception occurred while attempting to log: file_put_contents(/var/www/almacen/backend/.env): Failed to open stream: Permission denied
