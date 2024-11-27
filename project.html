@@ -1,6 +1,4 @@
- // Campo para asociar hijos a una máquina (ya sea tipo parent o roulette)
-            $table ->foreignId('parent_id') ->nullable();
-            $table->foreign('parent_id')-> references ('prometeo_id') -> on ('machines') ->cascadeOnDelete();
+https://disk.yandex.ru/d/vNuZzq26lNZIgQ
 
 PS C:\Users\Magarin\miniprometeo>   SQLSTATE[HY000]: General error: 1005 Can't create table `miniprometeo`.`machines` (errno: 150 "Foreign key constraint is incorrectly formed") (SQL: alter table `machines` add constraint `machines_parent_id_foreign` foreign key (`parent_id`) references `machines` (`prometeo_id`) on delete cascade)
 
