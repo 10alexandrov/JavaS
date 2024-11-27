@@ -1,4 +1,7 @@
-https://disk.yandex.ru/d/DDop_t2oATEZlA
+    <Directory /var/www/almacen/frontend>
+        AllowOverride All
+        Require all granted
+    </Directory>
 
 
 PS C:\Users\Magarin\miniprometeo>   SQLSTATE[HY000]: General error: 1005 Can't create table `miniprometeo`.`machines` (errno: 150 "Foreign key constraint is incorrectly formed") (SQL: alter table `machines` add constraint `machines_parent_id_foreign` foreign key (`parent_id`) references `machines` (`prometeo_id`) on delete cascade)
