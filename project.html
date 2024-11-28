@@ -1,46 +1,29 @@
 !!! **** RedirectMatch 301 ^/$ /inicio
 
 
-<?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Auth::routes(); // Маршруты для аутентификации (login, register и т.д.)
 
-// Главная страница с перенаправлением
+// Применяем middleware для всех маршрутов, кроме аутентификационных
+Route::middleware('auth')->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('/usuarios', UsuarioController::class)->names("usuarios");
+    Route::resource('/product', ProductoController::class)->names("productos");
+    Route::post('/product/find', [ProductoController::class, 'find'])->name("productos.find");
+});
+
+// Главная страница без middleware
 Route::get('/', function () {
-    $error = session()->get('error');
     if (Auth::check()) {
-        return redirect()->route('home')->with('error', $error);
+        return redirect()->route('home');
     }
-    return redirect()->route('login'); // Явный редирект на именованный маршрут 'login'
-})->name('main'); // Указываем имя
+    return redirect()->route('login');
+})->name('main');
 
-Auth::routes(); // Маршруты для аутентификации
-
-// Home маршрут с использованием контроллера
-Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-
-
-Route::resource('/usuarios',UsuarioController::class) -> names("usuarios");
-Route::resource('/product',ProductoController::class) -> names("productos");
-
-Route::post('/product/find', [ProductoController::class, 'find']) -> name("productos.find");
 
 
 
