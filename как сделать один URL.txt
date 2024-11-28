@@ -1,0 +1,105 @@
+В Angular 18 отсутствует структура с файлом environment.ts. Вместо этого используется модульная конфигурация с файлами, определенными в проекте. В этом случае правильным подходом будет использовать Angular Dependency Injection или сервисы для управления URL сервера.
+
+1. Использование Angular DI с токеном
+Angular 18 поддерживает InjectionToken как способ безопасно передавать данные в разные части приложения.
+
+Шаги:
+Создайте токен с URL: В файле, например, api.config.ts:
+
+typescript
+Копировать код
+import { InjectionToken } from '@angular/core';
+
+export const API_URL = new InjectionToken<string>('API_URL', {
+    providedIn: 'root',
+    factory: () => 'http://almacen-admin/api',
+});
+Используйте токен в приложении: В любом компоненте или сервисе:
+
+typescript
+Копировать код
+import { Inject } from '@angular/core';
+import { API_URL } from './api.config';
+
+constructor(@Inject(API_URL) private apiUrl: string) {}
+
+someMethod() {
+    console.log(this.apiUrl); // http://almacen-admin/api
+}
+2. Создание глобального сервиса
+Создание сервиса для работы с базовым URL — удобный способ централизовать управление конфигурацией.
+
+Шаги:
+Создайте сервис: Выполните команду:
+
+bash
+Копировать код
+ng generate service services/api
+Добавьте базовый URL в сервис: В файле api.service.ts:
+
+typescript
+Копировать код
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class ApiService {
+    private readonly baseUrl: string = 'http://almacen-admin/api';
+
+    getBaseUrl(): string {
+        return this.baseUrl;
+    }
+
+    getFullUrl(endpoint: string): string {
+        return `${this.baseUrl}/${endpoint}`;
+    }
+}
+Используйте сервис в коде: Импортируйте и внедрите ApiService в компоненты:
+
+typescript
+Копировать код
+import { ApiService } from './services/api.service';
+
+constructor(private apiService: ApiService) {}
+
+someMethod() {
+    const loginUrl = this.apiService.getFullUrl('user/login');
+    console.log(loginUrl); // http://almacen-admin/api/user/login
+}
+3. Использование переменных окружения с Angular 18
+Angular 18 использует .env для переменных окружения вместо файлов environment.ts.
+
+Шаги:
+Создайте файл .env в корне проекта:
+
+env
+Копировать код
+NG_APP_API_URL=http://almacen-admin/api
+Добавьте поддержку в Angular: В файле angular.json, убедитесь, что ключи .env подключены:
+
+json
+Копировать код
+"architect": {
+    "build": {
+        "options": {
+            "fileReplacements": [
+                {
+                    "replace": "src/environments/environment.ts",
+                    "with": ".env"
+                }
+            ]
+        }
+    }
+}
+Используйте переменные: В компоненте или сервисе:
+
+typescript
+Копировать код
+const apiUrl = process.env['NG_APP_API_URL'] || 'http://default-url/api';
+
+console.log(apiUrl); // http://almacen-admin/api
+Какой подход выбрать?
+InjectionToken: минималистичный и эффективный способ для статичных URL.
+Глобальный сервис: гибкий и расширяемый для более сложных требований.
+.env переменные: предпочтительны для динамических конфигураций (например, при CI/CD).
