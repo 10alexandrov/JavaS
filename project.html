@@ -1,8 +1,22 @@
 !!! **** RedirectMatch 301 ^/$ /inicio
 
 
-alumno@alumno-vbox:~/Desktop/Almacen/almacen$ php artisan route:cache
-Route cache cleared!
+<div class="m-10">
+                        <button class='m-100 btn btn-danger' id='desactivar'>Desactivar</button>
+                </div>
+<script>
+
+    const button = document.getElementById('desactivar');
+
+    console.log (button);
+
+    button.addEventListener((click) => function (event){
+        console.log('ckick!');
+    })
+
+
+</script>
+
 
    LogicException 
 
