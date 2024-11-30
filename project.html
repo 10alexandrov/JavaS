@@ -1,7 +1,14 @@
 !!! **** RedirectMatch 301 ^/$ /inicio
 
 
-'p_altura' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+    public function destroy($usuario_id)
+    {
+        $usuarioParaDesactivar = Usuario::findOrFail($usuario_id)->get();
+        $usuarioParaDesactivar -> u_activo = 0;
+        $usuarioParaDesactivar -> update ();
+        $usuarios=Usuario::get();
+        return view ('admin.user.index', compact('usuarios'));
+    }
 
 
    LogicException 
