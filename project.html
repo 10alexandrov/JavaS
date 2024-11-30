@@ -1,23 +1,14 @@
 !!! **** RedirectMatch 301 ^/$ /inicio
 
 
-      <!--  Activar/desactivar producto -->
-      <div class="col-12 col-sm-12 col-md-4 pt-4 mobile-color pb-2">
-        <div class="form-check form-check-inline">
-          <input type="hidden" name="p_activo" value="0">
-          <input
-            class="form-check-input"
-            name="p_activo"
-            type="checkbox"
-            id="activeTrue"
-            value="1"
-            {{ $producto->p_activo ? 'checked' : '' }}
-          >
-          <label class="form-check-label form-label-AW" for="activeTrue">
-            Producto activo
-          </label>
-        </div>
-      </div>
+<input
+  class="form-check-input"
+  name="p_activo"
+  type="checkbox"
+  id="activeTrue"
+  value="1"
+  {{ isset($producto->p_activo) && $producto->p_activo ? 'checked' : '' }}
+>
 
 
 
