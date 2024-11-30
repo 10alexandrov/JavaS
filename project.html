@@ -1,7 +1,15 @@
 !!! **** RedirectMatch 301 ^/$ /inicio
 
 
-{{ old('p_categoria') == 1 ? 'selected' : '' }}
+      <!--  Activar/desactivar producto -->
+      <div class="col-12 col-sm-12 col-md-4 pt-4 mobile-color pb-2">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" name="p_activo" type="checkbox" id="activeTrue" value="{{ old('p_activo') }}">
+          <label class="form-check-label form-label-AW" for="activeTrue">
+            Producto activo
+          </label>
+        </div>
+      </div>
 
 
    LogicException 
