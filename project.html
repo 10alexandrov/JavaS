@@ -1,14 +1,15 @@
 !!! **** RedirectMatch 301 ^/$ /inicio
 
 
-    public function destroy($usuario_id)
-    {
-        $usuarioParaDesactivar = Usuario::findOrFail($usuario_id)->get();
-        $usuarioParaDesactivar -> u_activo = 0;
-        $usuarioParaDesactivar -> update ();
-        $usuarios=Usuario::get();
-        return view ('admin.user.index', compact('usuarios'));
-    }
+          <select name="p_categoria" class="form-control col-md-6" value="{{ old('p_categoria') }}">
+            <option value="">-- Elije una categoria --</option>
+            <option  value="1">Bebidas</option>
+            <option  value="2">Cereales</option>
+            <option  value="3">Enlatada</option>
+            <option  value="4">Pasteleria</option>
+            <option  value="5">Alcohol</option>
+            <option  value="6">Snack</option>
+          </select>
 
 
    LogicException 
