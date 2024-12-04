@@ -383,3 +383,126 @@ sudo systemctl start mariadb
             DB::rollBack();
             Log::info ($mercancias);
     }
+private function estadisticas ($idFactura, $factura, $mercancias) {
+
+    try {
+        $date = Carbon::now ();
+        $yesterday = Carbon::yesterday ();
+        $id = $date->format('dmY');
+        $estadistica = Estadistica::where('id', $id) -> first();
+
+        $newDay = !$estadistica;  // El dia nueva o no
+
+        if (!$estadistica) { $estadistica = new Estadistica; }   // Si no hay estadistica creamos objeto nuevo
+
+        $estadisticaYesterday = null;   // Buscamos estadistica periodo anterior
+        while (!$estadisticaYesterday && $yesterday->lt($date)) {
+            $idYesterday = $yesterday->format('dmY');
+            $estadisticaYesterday = Estadistica::where('id', $idYesterday)->first();
+            if (!$estadisticaYesterday) {
+                $yesterday->subDay();
+            }
+        }
+
+        $estadisticaNew = new Estadistica ();
+        $estadisticaNew->e_volumen_restos = 0;
+        $estadisticaNew->e_suma_restos = 0;
+        $estadisticaNew->e_suma_ventas_hoy = 0;
+        $estadisticaNew->e_beneficios_hoy = 0;
+
+        if ($factura -> f_tipo) {   // Si es factura venta
+            foreach ($mercancias as $mercancia) {
+                $producto = Producto::findOrFail($mercancia['m_id_productos']);
+                $e_volumen_restos = ($producto->p_ancho*$producto->p_altura*$producto->p_longitud)/1000000000;
+                $e_suma_restos = $mercancia ['m_suma_recogida'];
+                $e_beneficios_hoy = ($producto->p_precio_venta-$producto->p_precio_compra)*$mercancia['m_cantidad_recogida'];
+
+                $estadisticaNew -> e_volumen_restos += $e_volumen_restos;
+                $estadisticaNew -> e_suma_restos += $e_suma_restos;
+                $estadisticaNew -> e_suma_ventas_hoy += $e_suma_restos;
+                $estadisticaNew -> e_beneficios_hoy += $e_beneficios_hoy;
+            }
+
+            $estadistica -> id = $id;
+            $estadistica -> e_fecha = $date;
+            log::info($estadisticaNew);
+            if ($newDay) {
+                $estadistica -> e_volumen_restos = $estadisticaYesterday -> e_volumen_restos - $estadisticaNew -> e_volumen_restos;
+                $estadistica -> e_suma_restos = $estadisticaYesterday ->e_suma_restos - $estadisticaNew -> e_suma_restos;
+                $estadistica -> e_suma_ventas_hoy = $estadisticaNew -> e_suma_ventas_hoy;
+                $estadistica -> e_suma_compras_hoy = 0;
+                $estadistica -> e_beneficios_hoy = $estadisticaNew -> e_beneficios_hoy;
+            } else {
+                $estadistica -> increment ('e_suma_ventas_hoy', $estadisticaNew -> e_suma_ventas_hoy);
+                $estadistica -> decrement ('e_volumen_restos', $estadisticaNew -> e_volumen_restos);
+                $estadistica -> decrement ('e_suma_restos', $estadisticaNew -> e_suma_restos);
+                $estadistica -> increment ('e_beneficios_hoy', $estadisticaNew -> e_beneficios_hoy);
+            }
+
+            if ($date->month == $yesterday->month && $newDay) {
+                $estadistica -> e_suma_ventas_mes = $estadisticaYesterday->e_suma_ventas_mes + $estadisticaNew -> e_suma_ventas_hoy;
+                $estadistica -> e_beneficios_mes = $estadisticaYesterday->e_beneficios_mes + $estadisticaNew -> e_beneficios_hoy;
+                $estadistica -> e_suma_compras_mes = $estadisticaYesterday->e_suma_compras_mes;
+            } else if ($date->month !== $yesterday->month && $newDay) {
+                $estadistica -> e_suma_ventas_mes = $estadisticaNew -> e_suma_ventas_hoy;
+                $estadistica -> e_beneficios_mes = $estadisticaNew -> e_beneficios_hoy;
+                $estadistica -> e_suma_compras_mes = 0;
+            } else  {
+                $estadistica -> increment ('e_suma_ventas_mes',  $estadisticaNew -> e_suma_ventas_hoy);
+                $estadistica -> increment ('e_beneficios_mes', $estadisticaNew -> e_beneficios_hoy);
+            }
+
+            log::info($estadistica);
+            $estadistica ->save();
+
+        } else {   // Si es factura compra
+            foreach ($mercancias as $mercancia) {
+
+                $producto = Producto::findOrFail($mercancia['m_id_productos']);
+                $e_volumen_restos = ($producto->p_ancho*$producto->p_altura*$producto->p_longitud)/1000000000;
+                $e_suma_restos = $mercancia['m_suma_recogida'];
+
+                $estadisticaNew -> e_volumen_restos += $e_volumen_restos;
+                $estadisticaNew -> e_suma_restos += $e_suma_restos;
+                $estadisticaNew -> e_suma_compras_hoy += $e_suma_restos;
+            }
+
+            $estadistica -> id = $id;
+            $estadistica -> e_fecha = $date;
+            if ($newDay) {
+                $estadistica -> e_volumen_restos = $estadisticaYesterday -> e_volumen_restos + $estadisticaNew -> e_volumen_restos;
+                $estadistica -> e_suma_restos = $estadisticaYesterday ->e_suma_restos +  $estadisticaNew -> e_suma_restos;
+                $estadistica -> e_suma_compras_hoy = $estadisticaNew -> e_suma_compras_hoy;
+                $estadistica -> e_suma_ventas_hoy = 0;
+                $estadistica -> e_beneficios_hoy = 0;
+            } else {
+                $estadistica -> increment ('e_suma_compras_hoy', $estadisticaNew -> e_suma_compras_hoy);
+                $estadistica -> increment ('e_volumen_restos', $estadisticaNew -> e_volumen_restos);
+                $estadistica -> increment ('e_suma_restos', $estadisticaNew -> e_suma_restos);
+                $estadistica -> e_beneficios_hoy = $estadistica -> e_beneficios_hoy;
+            }
+
+            if ($date->month == $yesterday->month && $newDay) {
+                $estadistica -> e_suma_compras_mes = $estadisticaYesterday->e_suma_compras_mes + $estadisticaNew -> e_suma_compras_hoy;
+                $estadistica -> e_suma_ventas_mes = $estadisticaYesterday->e_suma_ventas_mes;
+                $estadistica -> e_beneficios_mes = $estadisticaYesterday-> e_beneficios_mes;
+            } else if ($date->month !== $yesterday->month && $newDay) {
+                $estadistica -> e_suma_compras_mes = $estadisticaNew -> e_suma_compras_hoy;
+                $estadistica -> e_suma_ventas_mes = 0;
+                $estadistica -> e_beneficios_mes =0;
+            } else  {
+                $estadistica -> increment ('e_suma_compras_mes',  $estadisticaNew -> e_suma_compras_hoy);
+                $estadistica -> e_suma_ventas_mes = $estadistica -> e_suma_ventas_mes;
+                $estadistica -> e_beneficios_mes = $estadistica -> e_beneficios_mes;
+            }
+            log::info ($estadistica);
+            $estadistica ->save();
+
+        }
+
+    } catch (\Exception $exception) {
+
+        Log::info($exception);
+        return $exception -> getMessage();
+    }
+    }
