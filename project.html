@@ -10,15 +10,33 @@ SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost' (SQL: select * 
 
 
 
-protected function attemptLogin(Request $request)
+// app/Http/Middleware/CheckUserActive.php
+use Closure;
+use Illuminate\Support\Facades\Auth;
+
+public function handle($request, Closure $next)
 {
-    $credentials = $this->credentials($request);
+    if (Auth::check() && Auth::user()->u_active == 0) {
+        Auth::logout();
 
-    // Проверяем, что пользователь активен
-    $credentials['u_active'] = 1;
+        return redirect('/login')->withErrors([
+            'email' => 'Your account is inactive.',
+        ]);
+    }
 
-    return Auth::attempt($credentials, $request->filled('remember'));
+    return $next($request);
 }
+
+protected $routeMiddleware = [
+    // ...
+    'check_active' => \App\Http\Middleware\CheckUserActive::class,
+];
+
+Route::group(['middleware' => ['auth', 'check_active']], function () {
+    // Ваши маршруты
+});
+
+
 
 
 // Главная страница без middleware
