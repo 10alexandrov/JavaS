@@ -6,14 +6,7 @@ $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,'
 
 
 
-<input
-  class="form-check-input"
-  name="p_activo"
-  type="checkbox"
-  id="activeTrue"
-  value="1"
-  {{ isset($producto->p_activo) && $producto->p_activo ? 'checked' : '' }}
->
+SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost' (SQL: select * from `usuarios` where `u_login` = admin and `u_role` = admin limit 1)
 
 
 
