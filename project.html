@@ -1,4 +1,4 @@
-!!! **** RedirectMatch 301 ^/$ /inicio   
+!!! **** RedirectMatch 301 ^/$ /inicio    
 
 $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,' . 
                         base64_encode(file_get_contents($request->file('image')->getRealPath()));
