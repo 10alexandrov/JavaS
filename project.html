@@ -4,34 +4,22 @@ $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,'
                         base64_encode(file_get_contents($request->file('image')->getRealPath()));
 
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\HomeController;
+// app/Http/Middleware/CheckUserActive.php
+use Closure;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
-// Убираем маршруты регистрации и восстановления пароля
-Auth::routes([
-    'register' => false, // Отключает маршрут для регистрации
-    'reset' => false,    // Отключает маршрут для восстановления пароля
-]);
+public function handle($request, Closure $next)
+{
+    if (Auth::check() && Auth::user()->u_active == 0) {
+        Auth::logout();
 
-// Главная страница без middleware
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('home');
+        return redirect('/login')->withErrors([
+            'email' => 'Your account is inactive.',
+        ]);
     }
-    return redirect()->route('login');
-})->name('main');
 
-// Применяем middleware для всех маршрутов, кроме аутентификационных
-Route::middleware(['auth', 'check_active'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::resource('/users', UsuarioController::class)->names("users");
-    Route::post('/product/find', [ProductoController::class, 'find'])->name("product.find");
-    Route::resource('/product', ProductoController::class)->names("product");
-});
+    return $next($request);
+}
 
 
 alumno@alumno-vbox:~/Desktop/Almacen/almacen$ php artisan route:list
