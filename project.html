@@ -10,9 +10,15 @@ SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost' (SQL: select * 
 
 
 
-   LogicException 
+protected function attemptLogin(Request $request)
+{
+    $credentials = $this->credentials($request);
 
-  Unable to prepare route [usuarios] for serialization. Another route has already been assigned name [usuarios.index].
+    // Проверяем, что пользователь активен
+    $credentials['u_active'] = 1;
+
+    return Auth::attempt($credentials, $request->filled('remember'));
+}
 
 
 // Главная страница без middleware
