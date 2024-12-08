@@ -3,19 +3,12 @@
 $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,' . 
                         base64_encode(file_get_contents($request->file('image')->getRealPath()));
 
-debian@debian:/var/www/almacen/backend/storage/logs$ ps aux | grep apache
-root         897  0.0  0.7 281264 29920 ?        Ss   17:32   0:01 /usr/sbin/apache2 -k start
-www-data     928  0.0  1.3 283384 54284 ?        S    17:32   0:00 /usr/sbin/apache2 -k start
-www-data     929  0.0  1.5 283484 62732 ?        S    17:32   0:00 /usr/sbin/apache2 -k start
-www-data     930  0.0  2.0 287592 81688 ?        S    17:32   0:00 /usr/sbin/apache2 -k start
-www-data     931  0.0  1.6 283404 67560 ?        S    17:32   0:00 /usr/sbin/apache2 -k start
-www-data     932  0.0  1.6 283488 67740 ?        S    17:32   0:00 /usr/sbin/apache2 -k start
-www-data    4686  0.0  1.6 283500 65916 ?        S    17:36   0:00 /usr/sbin/apache2 -k start
-www-data    4697  0.0  1.7 283496 68484 ?        S    17:36   0:00 /usr/sbin/apache2 -k start
-www-data    4698  0.0  1.6 283408 67020 ?        S    17:36   0:00 /usr/sbin/apache2 -k start
-www-data    6429  0.0  1.3 283344 54108 ?        S    18:23   0:00 /usr/sbin/apache2 -k start
-www-data    8119  0.0  0.9 282652 36644 ?        S    21:34   0:00 /usr/sbin/apache2 -k start
-debian      9258  0.0  0.0   6352  2132 pts/0    S+   23:47   0:00 grep apache
+sudo chown -R www-data:www-data /var/www/almacen/backend/storage/logs
+Убедитесь, что у папки есть права записи:
+
+bash
+Копировать код
+sudo chmod -R 775 /var/www/almacen/backend/storage/logs
 
 
 
