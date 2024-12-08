@@ -3,6 +3,9 @@
 $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,' . 
                         base64_encode(file_get_contents($request->file('image')->getRealPath()));
 
+The exception occurred while attempting to log: Illuminate\Foundation\Console\RouteCacheCommand::buildRouteCacheFile(): Argument #1 ($routes) must be of type Illuminate\Routing\RouteCollection, Illuminate\Routing\CompiledRouteCollection given, called in /var/www/almacen/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/RouteCacheCommand.php on line 66
+
+
 
 <?php
 
