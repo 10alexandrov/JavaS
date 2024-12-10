@@ -7,6 +7,8 @@ $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,'
 sudo chown -R www-data:www-data /var/www/almacen/backend/storage/logs
 Убедитесь, что у папки есть права записи:
 
+$tokenTTL = JWTAuth::factory()->getTTL() * 60;
+
 public function login(Request $request)
 {
     $credentials = $request->only('u_login', 'u_password');
