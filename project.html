@@ -7,7 +7,19 @@ $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,'
 sudo chown -R www-data:www-data /var/www/almacen/backend/storage/logs
 Убедитесь, что у папки есть права записи:
 
-$tokenTTL = JWTAuth::factory()->getTTL() * 60;
+ foreach ($mercancias as &$mercancia) {
+                $producto = Producto::first($mercancia -> m_id_productos);
+
+                if ($facturaParaBorrar -> f_tipo == 0) { // Si factura compra
+                    $producto -> p_cantidad_entrega -= $mercancia -> m_cantidad_pedida;
+                } else {
+                    $producto ->p_cantidad_reservado -= $mercancia -> m_cantidad_pedida;
+                    $producto ->p_cantidad_almacen += $mercancia -> m_cantidad_pedida;
+                }
+
+                $producto -> update();
+                $mercancia-> delete();
+            }
 
 public function login(Request $request)
 {
