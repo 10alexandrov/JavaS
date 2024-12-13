@@ -7,8 +7,11 @@ $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,'
 sudo chown -R www-data:www-data /var/www/almacen/backend/storage/logs
 Убедитесь, что у папки есть права записи:
 
-$lugar_anterior = Lugar::where('lugar_producto', $id_producto)
-    ->orderBy('id', 'desc')
+NG5002: Parser Error: Conditional expression (role === 'admin' || role === 'manager'
+              || role === 'vendedor' || role === 'cliente')
+              && facturaMostrar.f_aceptado? == false requires all 3 expressions at the end of the expression [(role === 'admin' || role === 'manager'
+              || role === 'vendedor' || role === 'cliente')
+              && facturaMostrar.f_aceptado? == false] in /home/alumno/Desktop/AlmacenA/almacen/src/app/components/show-factura/show-factura.component.html@4:7
     ->first();
 
  foreach ($mercancias as &$mercancia) {
