@@ -7,458 +7,127 @@ $imageBase64 = 'data:image/' . $request->file('image')->extension() . ';base64,'
 sudo chown -R www-data:www-data /var/www/almacen/backend/storage/logs
 Убедитесь, что у папки есть права записи:
 
-
-
-
- foreach ($mercancias as &$mercancia) {
-                $producto = Producto::first($mercancia -> m_id_productos);
-
-                if ($facturaParaBorrar -> f_tipo == 0) { // Si factura compra
-                    $producto -> p_cantidad_entrega -= $mercancia -> m_cantidad_pedida;
-                } else {
-                    $producto ->p_cantidad_reservado -= $mercancia -> m_cantidad_pedida;
-                    $producto ->p_cantidad_almacen += $mercancia -> m_cantidad_pedida;
-                }
-
-                $producto -> update();
-                $mercancia-> delete();
-            }
-
-public function login(Request $request)
 {
-    $credentials = $request->only('u_login', 'u_password');
-    $credentials['password'] = $credentials['u_password'];
-    unset($credentials['u_password']);
-
-    // Попытка найти пользователя по логину
-    $usuario = Usuario::where('u_login', $credentials['u_login'])->first();
-
-    // Проверяем, существует ли пользователь и активен ли он
-    if (!$usuario || $usuario->u_active != 1) {
-        return response()->json(['error' => 'Usuario no está activo o no existe'], 403);
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "almacen": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/almacen",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js",
+              "@angular/localize/init"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "almacen:build:production"
+            },
+            "development": {
+              "buildTarget": "almacen:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing",
+              "@angular/localize/init"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+              "glob": "favicon.ico",
+              "input": "src",
+              "output": "/"
+            }
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
-
-    // Аутентификация через JWT
-    if (!$token = JWTAuth::attempt($credentials)) {
-        return response()->json(['error' => 'Datos son incorrectos'], 401);
-    }
-
-    // Получение информации о пользователе
-    $role = $usuario->u_role;  // Роль пользователя
-    $usuario_id = $usuario->usuario_id;
-    $tokenTTL = auth('api')->factory()->getTTL() * 60;
-
-    // Возврат токена и данных пользователя
-    return response()->json([
-        'token' => $token,
-        'usuario' => $usuario_id,
-        'role' => $role,
-        'expires_in' => $tokenTTL
-    ]);
+  },
+  "cli": {
+    "analytics": false
+  }
 }
-
-
-sudo apt remove --purge mariadb-server mariadb-client
-Установите MariaDB заново:
-bash
-Копировать код
-sudo apt install mariadb-server mariadb-client
-После установки попробуйте запустить MariaDB:
-bash
-Копировать код
-sudo systemctl start mariadb
-2. Установите зависимости
-VS Code требует несколько зависимостей. Установите их:
-
-bash
-Копировать код
-sudo apt install software-properties-common apt-transport-https wget
-3. Добавьте репозиторий Microsoft
-Загрузите и установите ключ для репозитория Microsoft:
-
-bash
-Копировать код
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
-Теперь добавьте репозиторий Microsoft в список источников пакетов:
-
-bash
-Копировать код
-echo "deb [signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
-4. Обновите индекс пакетов
-После добавления репозитория обновите индекс пакетов:
-
-bash
-Копировать код
-sudo apt update
-5. Установите Visual Studio Code
-Теперь установите Visual Studio Code:
-
-bash
-Копировать код
-sudo apt install code
-6. Запуск Visual Studio Code
-После установки вы можете запустить VS Code из терминала, набрав:
-
-bash
-Копировать код
-code
-Или найдите его в меню приложений.
-bash
-Копировать код
-sudo systemctl stop mariadb
-2.2. Запустите MySQL/MariaDB в безопасном режиме
-Запустите MariaDB без проверки паролей и с пропуском всех привилегий:
-
-bash
-Копировать код
-sudo mysqld_safe --skip-grant-tables &
-Команда запустит MariaDB, но без механизма аутентификации, что позволит войти в систему без пароля.
-
-2.3. Вход в MariaDB/MySQL
-Теперь войдите в MariaDB:
-
-bash
-Копировать код
-sudo mysql -u root
-Вы окажетесь в консоли MariaDB.
-
-2.4. Измените пароль для пользователя root
-Теперь вы можете изменить пароль для пользователя root. Введите следующие команды:
-
-sql
-Копировать код
-USE mysql;
-UPDATE user SET password=PASSWORD('debian') WHERE User='root';
-FLUSH PRIVILEGES;
-EXIT;
-Замените new_password на новый пароль, который вы хотите установить.
-
-2.5. Перезапустите MariaDB
-Теперь перезапустите службу MariaDB, чтобы изменения вступили в силу:
-
-bash
-Копировать код
-sudo systemctl start mariadb
-2.6. Войдите в phpMyAdmin
-Теперь вы можете войти в phpMyAdmin, используя логин root и новый пароль, который вы только что установили.
-
-
-    private function updateMercancias ($mercancias, $mercanciasViejo, $id, $tipoFactura) {
-            foreach ($mercancias as $mercancia) {
-                if (isset($mercancia['m_id_productos']) && isset($mercancia['m_cantidad_pedida'])) {
-
-                    Mercancia::create([
-                        'm_id_facturas' => $id,
-                        'm_id_productos' => $mercancia['m_id_productos'],
-                        'm_cantidad_pedida' => $mercancia['m_cantidad_pedida'],
-                        'm_suma_pedida' => $mercancia['m_suma_pedida'],
-                    ]);
-
-                    // Anadimos datos de tabala de producto
-                    $producto = Producto::findOrFail($mercancia['m_id_productos']);
-                    $restosViejos = isset($mercancia['id']) ? $this -> getCantidadPedidaById($mercanciasViejo, $mercancia['id']) : 0;
-
-                    if ($tipoFactura == 0) {  // Si factura entrada anadimos campo producto enviado
-                        $producto->decrement('p_cantidad_entrega',$restosViejos);
-                        $producto->increment('p_cantidad_entrega',$mercancia['m_cantidad_pedida']);
-                    } else {  // Si factura salida anadimos campo producto reservado y desminuir campo producto en almacen
-                        $producto->increment('p_cantidad_almacen', $restosViejos);
-                        $producto->decrement('p_cantidad_reservado',$restosViejos);
-                        $producto->decrement('p_cantidad_almacen', $mercancia['m_cantidad_pedida']);
-                        $producto->increment('p_cantidad_reservado',$mercancia['m_cantidad_pedida']);
-                    }
-
-                } else {
-                    // Si datos incomplited
-                    return response()->json(['error' => 'Datos incomplited'], 400);
-                }
-            }
-    }
-
-
-    public function aceptar(Request $request, $id)
-    {
-        try {
-
-            DB::beginTransaction();  // Empesar transaction
-
-            $data = $request->json()->all();
-            $date = Carbon::now ();
-
-            if (isset($data['f_suma'])) {
-                $sumaFactura = $data['f_suma'];
-            } else {
-                $sumaFactura = 0;
-            }
-
-            if (isset($data['aceptarFactura'])) {
-                $f_aceptado = $data['aceptarFactura'];
-            } else {
-                $f_aceptado = 0;
-            }
-
-            if (isset($data['usuario'])) {
-                $f_id_responsable = $data['usuario'];
-            } else {
-                $f_id_responsable = 1;
-            }
-
-            $facturaControlado = Factura::findOrFail($id);  // renovar datos de la factura
-            $tipoFactura = $facturaControlado -> f_tipo;
-                $facturaControlado->update(['f_suma_tramitacion' => $sumaFactura,
-                                            'f_aceptado'=> $f_aceptado,
-                                            'f_fecha_tramitacion' => $date,
-                                            'f_id_responsable' => $f_id_responsable]);
-
-            // Grabar datos de nuevo
-
-                if (isset($data['mercancias']) && is_array($data['mercancias'])) {
-                    $mercancias = $data['mercancias'];
-
-                    foreach ($mercancias as &$mercancia) {
-
-                        if (isset($mercancia['id'])) {
-                            Mercancia::where ('id', $mercancia['id'])-> update([
-                                'm_cantidad_recogida' => $mercancia['m_cantidad_recogida'],
-                                'm_suma_recogida' => $mercancia['m_suma_recogida'],
-                                'm_aceptado' => $mercancia['m_aceptado'],
-                            ]);
-
-                            //  Corregir datos de restos en tabla productos
-
-                            $producto = Producto::findOrFail($mercancia['m_id_productos']);
-
-                            if ($tipoFactura == 0) {  // Si factura entrada anadimos campo producto enviado
-                                $producto->decrement('p_cantidad_entrega',$mercancia['m_cantidad_recogida']);
-                                $producto->increment('p_cantidad_almacen',$mercancia['m_cantidad_recogida']);
-                            } else {  // Si factura salida anadimos campo producto reservado y desminuir campo producto en almacen
-                                $producto->decrement('p_cantidad_reservado', $mercancia['m_cantidad_recogida']);
-                                $producto->increment('p_cantidad_enviado',$mercancia['m_cantidad_recogida']);
-                            }
-
-                            // Logica de lugar en almacen     **************************
-                            if ($tipoFactura == 0) {  // Si factura entrada
-                                $resto = $mercancia['m_cantidad_recogida']; // Cuantos unidades necesito colocar
-                                $full = $producto['p_cantidad_palet'];  // Cuantos unidades en palet
-
-                                do {
-                                    $lugar = Lugar::where('lugar_producto',$mercancia['m_id_productos']) ->
-                                                    where('lugar_cantidad', '<', $full) -> first ();  // buscamos lugar con producto
-
-                                    if (!$lugar) { // si no hay lugares con producto
-                                        $lugar = $this -> buscarLugarNuevo();   // buscamos lugar nuevo
-                                        $lugar -> lugar_producto = $mercancia['m_id_productos'];
-
-                                        if ($full > $resto) {
-                                            $lugar -> lugar_cantidad = $resto;
-                                            $lugar -> lugar_llenado = $resto/$producto->p_cantidad_palet;
-                                            $resto = 0;
-                                        } else {
-                                            $lugar -> lugar_cantidad = $full;
-                                            $lugar -> lugar_llenado = 100;
-                                            $resto -= $full;
-                                        }
-
-                                        $lugar -> save();
-                                    } else {   // si hay celda desponible
-                                        $restoEnCelda = $full - $lugar ->lugar_cantidad; // Cantar cuanto colocamos en esta celda
-
-                                        if ($restoEnCelda > $mercancia['m_cantidad_recogida']) {
-                                            $lugar ->lugar_cantidad += $mercancia['m_cantidad_recogida'];  // Colocamos producto a celda
-                                            $lugar -> lugar_llenado = ($lugar ->lugar_cantidad/$producto->p_cantidad_palet)*100;  // Cambiar lli¡enado de la celda
-
-                                            $resto = 0; //  Poner a cero el resto
-                                        } else {
-                                            Log::info('$restoEnCelda < $mercancia');
-                                            $lugar ->lugar_cantidad += $restoEnCelda;  // Colocamos producto a celda
-                                            $lugar -> lugar_llenado = 100; // La Celda es llena
-                                            $resto -= $restoEnCelda;  // Diminuir cantidad de factura
-                                        }
-                                        $lugar -> save();
-                                    }
-
-                                } while ($resto > 0);
-
-                            $mercancia['m_lugares'] = Lugar::where ('lugar_producto',$mercancia['m_id_productos']) -> get ();
-
-
-                            } else {  // Si factura salida anadimos campo producto reservado y desminuir campo producto en almacen
-
-                                $resto = $mercancia['m_cantidad_recogida']; // Cuantos unidades necesito colocar
-                                $full = $producto['p_cantidad_palet'];  // Cuantos unidades en palet
-
-                                do {
-                                    $lugar = Lugar::where('lugar_producto',$mercancia['m_id_productos']) -> first ();  // buscamos lugar con producto
-
-                                    if (!$lugar) { // si no hay lugares con producto
-                                        $resto = 0;
-
-                                    } else {   // si hay celda con mercancia
-
-                                        if ($lugar -> lugar_cantidad > $resto) {   // Si en la selda cantidad mas que necesito
-                                            $lugar ->lugar_cantidad -= $resto;  // disminuir producto a celda
-                                            $lugar -> lugar_llenado = ($lugar ->lugar_cantidad/$producto->p_cantidad_palet)*100;  // Cambiar lli¡enado de la celda
-
-                                            $resto = 0; //  Poner a cero el resto
-                                        } else {
-                                            $resto -= $lugar ->lugar_cantidad;  // Diminuir cantidad el celda
-                                            $lugar -> lugar_cantidad = 0;  // Poner a cero el resto en la celda
-                                            $lugar -> lugar_llenado = 0; // Poner a cero llenado en la celda
-                                            $lugar -> lugar_producto = 0; //  borramos info sobre producto
-                                        }
-                                        $lugar -> save();
-                                    }
-
-                                } while ($resto > 0);
-
-                            }
-
-                        } else {
-                            // Обработка ошибки, если данные продукта неполные
-                            return response()->json(['error' => 'Данные продукта неполные'], 400);
-                        }
-                    }
-
-
-                } else {
-                    // Обработка ошибки, если продукты не найдены
-                        return response()->json(['error' => 'Продукты не найдены'], 400);
-                }
-
-                if ($f_aceptado) {  // si factura esta aceptado - anadimos estadisticas
-                    $this -> estadisticas ($id, $facturaControlado, $data['mercancias']);
-                }
-
-                DB::commit();
-
-            } catch (\Exception $exception) {
-                return $exception -> getMessage();
-            }
-
-            return $mercancias;
-            DB::rollBack();
-            Log::info ($mercancias);
-    }
-private function estadisticas ($idFactura, $factura, $mercancias) {
-
-    try {
-        $date = Carbon::now ();
-        $yesterday = Carbon::yesterday ();
-        $id = $date->format('dmY');
-        $estadistica = Estadistica::where('id', $id) -> first();
-
-        $newDay = !$estadistica;  // El dia nueva o no
-
-        if (!$estadistica) { $estadistica = new Estadistica; }   // Si no hay estadistica creamos objeto nuevo
-
-        $estadisticaYesterday = null;   // Buscamos estadistica periodo anterior
-        while (!$estadisticaYesterday && $yesterday->lt($date)) {
-            $idYesterday = $yesterday->format('dmY');
-            $estadisticaYesterday = Estadistica::where('id', $idYesterday)->first();
-            if (!$estadisticaYesterday) {
-                $yesterday->subDay();
-            }
-        }
-
-        $estadisticaNew = new Estadistica ();
-        $estadisticaNew->e_volumen_restos = 0;
-        $estadisticaNew->e_suma_restos = 0;
-        $estadisticaNew->e_suma_ventas_hoy = 0;
-        $estadisticaNew->e_beneficios_hoy = 0;
-
-        if ($factura -> f_tipo) {   // Si es factura venta
-            foreach ($mercancias as $mercancia) {
-                $producto = Producto::findOrFail($mercancia['m_id_productos']);
-                $e_volumen_restos = ($producto->p_ancho*$producto->p_altura*$producto->p_longitud)/1000000000;
-                $e_suma_restos = $mercancia ['m_suma_recogida'];
-                $e_beneficios_hoy = ($producto->p_precio_venta-$producto->p_precio_compra)*$mercancia['m_cantidad_recogida'];
-
-                $estadisticaNew -> e_volumen_restos += $e_volumen_restos;
-                $estadisticaNew -> e_suma_restos += $e_suma_restos;
-                $estadisticaNew -> e_suma_ventas_hoy += $e_suma_restos;
-                $estadisticaNew -> e_beneficios_hoy += $e_beneficios_hoy;
-            }
-
-            $estadistica -> id = $id;
-            $estadistica -> e_fecha = $date;
-            log::info($estadisticaNew);
-            if ($newDay) {
-                $estadistica -> e_volumen_restos = $estadisticaYesterday -> e_volumen_restos - $estadisticaNew -> e_volumen_restos;
-                $estadistica -> e_suma_restos = $estadisticaYesterday ->e_suma_restos - $estadisticaNew -> e_suma_restos;
-                $estadistica -> e_suma_ventas_hoy = $estadisticaNew -> e_suma_ventas_hoy;
-                $estadistica -> e_suma_compras_hoy = 0;
-                $estadistica -> e_beneficios_hoy = $estadisticaNew -> e_beneficios_hoy;
-            } else {
-                $estadistica -> increment ('e_suma_ventas_hoy', $estadisticaNew -> e_suma_ventas_hoy);
-                $estadistica -> decrement ('e_volumen_restos', $estadisticaNew -> e_volumen_restos);
-                $estadistica -> decrement ('e_suma_restos', $estadisticaNew -> e_suma_restos);
-                $estadistica -> increment ('e_beneficios_hoy', $estadisticaNew -> e_beneficios_hoy);
-            }
-
-            if ($date->month == $yesterday->month && $newDay) {
-                $estadistica -> e_suma_ventas_mes = $estadisticaYesterday->e_suma_ventas_mes + $estadisticaNew -> e_suma_ventas_hoy;
-                $estadistica -> e_beneficios_mes = $estadisticaYesterday->e_beneficios_mes + $estadisticaNew -> e_beneficios_hoy;
-                $estadistica -> e_suma_compras_mes = $estadisticaYesterday->e_suma_compras_mes;
-            } else if ($date->month !== $yesterday->month && $newDay) {
-                $estadistica -> e_suma_ventas_mes = $estadisticaNew -> e_suma_ventas_hoy;
-                $estadistica -> e_beneficios_mes = $estadisticaNew -> e_beneficios_hoy;
-                $estadistica -> e_suma_compras_mes = 0;
-            } else  {
-                $estadistica -> increment ('e_suma_ventas_mes',  $estadisticaNew -> e_suma_ventas_hoy);
-                $estadistica -> increment ('e_beneficios_mes', $estadisticaNew -> e_beneficios_hoy);
-            }
-
-            log::info($estadistica);
-            $estadistica ->save();
-
-        } else {   // Si es factura compra
-            foreach ($mercancias as $mercancia) {
-
-                $producto = Producto::findOrFail($mercancia['m_id_productos']);
-                $e_volumen_restos = ($producto->p_ancho*$producto->p_altura*$producto->p_longitud)/1000000000;
-                $e_suma_restos = $mercancia['m_suma_recogida'];
-
-                $estadisticaNew -> e_volumen_restos += $e_volumen_restos;
-                $estadisticaNew -> e_suma_restos += $e_suma_restos;
-                $estadisticaNew -> e_suma_compras_hoy += $e_suma_restos;
-            }
-
-            $estadistica -> id = $id;
-            $estadistica -> e_fecha = $date;
-            if ($newDay) {
-                $estadistica -> e_volumen_restos = $estadisticaYesterday -> e_volumen_restos + $estadisticaNew -> e_volumen_restos;
-                $estadistica -> e_suma_restos = $estadisticaYesterday ->e_suma_restos +  $estadisticaNew -> e_suma_restos;
-                $estadistica -> e_suma_compras_hoy = $estadisticaNew -> e_suma_compras_hoy;
-                $estadistica -> e_suma_ventas_hoy = 0;
-                $estadistica -> e_beneficios_hoy = 0;
-            } else {
-                $estadistica -> increment ('e_suma_compras_hoy', $estadisticaNew -> e_suma_compras_hoy);
-                $estadistica -> increment ('e_volumen_restos', $estadisticaNew -> e_volumen_restos);
-                $estadistica -> increment ('e_suma_restos', $estadisticaNew -> e_suma_restos);
-                $estadistica -> e_beneficios_hoy = $estadistica -> e_beneficios_hoy;
-            }
-
-            if ($date->month == $yesterday->month && $newDay) {
-                $estadistica -> e_suma_compras_mes = $estadisticaYesterday->e_suma_compras_mes + $estadisticaNew -> e_suma_compras_hoy;
-                $estadistica -> e_suma_ventas_mes = $estadisticaYesterday->e_suma_ventas_mes;
-                $estadistica -> e_beneficios_mes = $estadisticaYesterday-> e_beneficios_mes;
-            } else if ($date->month !== $yesterday->month && $newDay) {
-                $estadistica -> e_suma_compras_mes = $estadisticaNew -> e_suma_compras_hoy;
-                $estadistica -> e_suma_ventas_mes = 0;
-                $estadistica -> e_beneficios_mes =0;
-            } else  {
-                $estadistica -> increment ('e_suma_compras_mes',  $estadisticaNew -> e_suma_compras_hoy);
-                $estadistica -> e_suma_ventas_mes = $estadistica -> e_suma_ventas_mes;
-                $estadistica -> e_beneficios_mes = $estadistica -> e_beneficios_mes;
-            }
-            log::info ($estadistica);
-            $estadistica ->save();
-
-        }
-
-    } catch (\Exception $exception) {
-
-        Log::info($exception);
-        return $exception -> getMessage();
-    }
-    }
