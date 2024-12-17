@@ -132,31 +132,33 @@ sudo chown -R www-data:www-data /var/www/almacen/backend/storage/logs
   }
 }
 
-<VirtualHost *:80>
+ <VirtualHost *:80>
+    ServerAdmin webmaster@localhost
 
-	ServerAdmin webmaster@localhost
+    # Настройка для главного сайта
+    DocumentRoot /var/www/almacen/frontend/browser
+    RedirectMatch 301 ^/$ /almacen/inicio
 
-	Alias /almacen /var/www/almacen/frontend/browser
-	DocumentRoot /var/www/almacen/frontend/browser
-	RedirectMatch 301 ^/$ /inicio
-
-	<Directory /var/www/almacen/frontend/browser>
-	Options Indexes FollowSymLinks
-	AllowOverride All
-        Require all granted
-        </Directory>
-
-	Alias /almacen-admin /var/www/almacen/backend/public
-
-        <Directory /var/www/almacen/backend/public>
+    # Настройка для "/almacen"
+    Alias /almacen /var/www/almacen/frontend/browser
+    <Directory /var/www/almacen/frontend/browser>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
-        </Directory>
+    </Directory>
 
+    # Перенаправление "/almacen" на "/almacen/inicio"
+    RedirectMatch ^/almacen/?$ /almacen/inicio
 
+    # Настройка для "/almacen-admin"
+    Alias /almacen-admin /var/www/almacen/backend/public
+    <Directory /var/www/almacen/backend/public>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
 
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
-
+    # Логи сервера
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
