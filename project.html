@@ -193,3 +193,8 @@ Route::middleware(['auth', 'check_active'])->group(function () {
     Route::post('/product/find', [ProductoController::class, 'find'])->name("product.find");
     Route::resource('/product', ProductoController::class)->names("product");
 });
+
+debian@debian:/var/www/almacen/backend/routes$ php artisan route:clear
+Could not open input file: artisan
+debian@debian:/var/www/almacen/backend/routes$ php artisan
+Could not open input file: artisan
