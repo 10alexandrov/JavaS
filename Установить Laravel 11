@@ -21,6 +21,7 @@ Leyendo la información de estado... Hecho
 E: No se ha podido localizar el paquete php8.2
 E: No se pudo encontrar ningún paquete usando «*» con «php8.2»
 
+sudo add-apt-repository ppa:ondrej/php
 ```
 
 #### Установите Composer:
