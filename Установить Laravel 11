@@ -13,6 +13,14 @@
 ```bash
 sudo apt update
 sudo apt install php8.2 php8.2-cli php8.2-fpm php8.2-mbstring php8.2-xml php8.2-bcmath php8.2-curl php8.2-zip unzip curl
+
+alumno@alumno-vbox:~$ sudo apt install php8.2
+Leyendo lista de paquetes... Hecho
+Creando árbol de dependencias       
+Leyendo la información de estado... Hecho
+E: No se ha podido localizar el paquete php8.2
+E: No se pudo encontrar ningún paquete usando «*» con «php8.2»
+
 ```
 
 #### Установите Composer:
