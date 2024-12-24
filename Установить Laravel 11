@@ -117,3 +117,5 @@ php artisan --version
 ```
 
 Вы увидите: `Laravel Framework 11.x.x`.
+
+sudo apt install libapache2-mod-php8.2
