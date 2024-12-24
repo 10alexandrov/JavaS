@@ -13,21 +13,29 @@
 ```bash
 sudo apt update
 sudo apt install php8.2 php8.2-cli php8.2-fpm php8.2-mbstring php8.2-xml php8.2-bcmath php8.2-curl php8.2-zip unzip curl
-
-alumno@alumno-vbox:~$ sudo apt install php8.2
-Leyendo lista de paquetes... Hecho
-Creando árbol de dependencias       
-Leyendo la información de estado... Hecho
-E: No se ha podido localizar el paquete php8.2
-E: No se pudo encontrar ningún paquete usando «*» con «php8.2»
-
-sudo add-apt-repository ppa:ondrej/php
 ```
 
 #### Установите Composer:
 ```bash
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
+
+
+alumno@alumno-vbox:~$ composer self-update 2.8.4
+Deprecation Notice: Using ${var} in strings is deprecated, use {$var} instead in phar:///usr/local/bin/composer/src/Composer/Autoload/AutoloadGenerator.php:799                                                                                               
+Deprecation Notice: Using ${var} in strings is deprecated, use {$var} instead in phar:///usr/local/bin/composer/src/Composer/Autoload/AutoloadGenerator.php:804                                                                                               
+Upgrading to version 2.8.4 (stable channel).
+   
+
+                                                                                                      
+  [Composer\Downloader\FilesystemException]                                                           
+  Filesystem exception:                                                                               
+  Composer update failed: "/usr/local/bin/composer" could not be written.                             
+  rename(/home/alumno/.cache/composer/composer-temp.phar,/usr/local/bin/composer): Permission denied  
+                                                                                                      
+
+self-update [-r|--rollback] [--clean-backups] [--no-progress] [--update-keys] [--stable] [--preview] [--snapshot] [--1] [--2] [--set-channel-only] [--] [<version>] 
+
 ```
 
 Проверьте версию Composer:
