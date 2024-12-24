@@ -127,3 +127,7 @@ AH00015: Unable to open logs
 no listening sockets available, shutting down
 AH00015: Unable to open logs
 
+alumno@alumno-vbox:~/Descargas$ sudo netstat -tuln | grep :80
+[sudo] contraseña para alumno: 
+tcp6       0      0 :::80                   :::*                    ESCUCHAR  
+
