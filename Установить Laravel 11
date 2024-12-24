@@ -1,0 +1,102 @@
+Для установки Laravel 11 на Linux выполните следующие шаги:
+
+---
+
+### 1. **Убедитесь, что установлены необходимые зависимости**
+Установите следующие программы и модули:
+- **PHP >= 8.2** (обязательное требование для Laravel 11)
+- **Composer**
+- **Web-сервер** (например, Apache или Nginx)
+- **MySQL/MariaDB/PostgreSQL** (или другая база данных)
+
+#### Установите PHP 8.2 и дополнительные модули:
+```bash
+sudo apt update
+sudo apt install php8.2 php8.2-cli php8.2-fpm php8.2-mbstring php8.2-xml php8.2-bcmath php8.2-curl php8.2-zip unzip curl
+```
+
+#### Установите Composer:
+```bash
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+```
+
+Проверьте версию Composer:
+```bash
+composer --version
+```
+
+---
+
+### 2. **Создайте новый проект Laravel**
+Используйте Composer для создания нового проекта Laravel:
+
+```bash
+composer create-project --prefer-dist laravel/laravel myproject
+```
+
+Где `myproject` — название вашей папки для проекта.
+
+---
+
+### 3. **Настройте права доступа**
+Убедитесь, что у папки `storage` и `bootstrap/cache` есть права на запись:
+```bash
+sudo chmod -R 775 myproject/storage myproject/bootstrap/cache
+sudo chown -R $USER:www-data myproject
+```
+
+---
+
+### 4. **Настройте виртуальный хост**
+Настройте сервер (например, Apache или Nginx) для работы с вашим приложением:
+
+#### Для Apache:
+Создайте виртуальный хост:
+```bash
+sudo nano /etc/apache2/sites-available/laravel.conf
+```
+
+Пример конфигурации:
+```apache
+<VirtualHost *:80>
+    ServerName your-domain.com
+    DocumentRoot /path/to/myproject/public
+
+    <Directory /path/to/myproject/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/laravel-error.log
+    CustomLog ${APACHE_LOG_DIR}/laravel-access.log combined
+</VirtualHost>
+```
+
+Активируйте сайт и перезапустите сервер:
+```bash
+sudo a2ensite laravel.conf
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+```
+
+---
+
+### 5. **Запустите встроенный сервер (для разработки)**
+Если вы хотите запустить приложение для разработки, используйте встроенный сервер Laravel: 
+```bash
+php artisan serve
+```
+
+Приложение будет доступно по адресу: [http://localhost:8000](http://localhost:8000)
+
+---
+
+### 6. **Убедитесь, что Laravel установлен**
+Перейдите в папку проекта и проверьте версию Laravel:
+```bash
+cd myproject
+php artisan --version
+```
+
+Вы увидите: `Laravel Framework 11.x.x`.
