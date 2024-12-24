@@ -118,16 +118,5 @@ php artisan --version
 
 Вы увидите: `Laravel Framework 11.x.x`.
 
-(98)Address already in use: AH00072: make_sock: could not bind to address [::]:80
-(98)Address already in use: AH00072: make_sock: could not bind to address 0.0.0.0:80
-no listening sockets available, shutting down
-AH00015: Unable to open logs
-(98)Address already in use: AH00072: make_sock: could not bind to address [::]:80
-(98)Address already in use: AH00072: make_sock: could not bind to address 0.0.0.0:80
-no listening sockets available, shutting down
-AH00015: Unable to open logs
-
-alumno@alumno-vbox:~/Descargas$ sudo netstat -tuln | grep :80
-[sudo] contraseña para alumno: 
-tcp6       0      0 :::80                   :::*                    ESCUCHAR  
+could not find driver (Connection: sqlite, SQL: PRAGMA foreign_keys = ON;)
 
