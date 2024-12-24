@@ -118,6 +118,4 @@ php artisan --version
 
 Вы увидите: `Laravel Framework 11.x.x`.
 
-could not find driver (Connection: sqlite, SQL: PRAGMA foreign_keys = ON;)
-
-sudo apt-get install php8.2-sqlite3
+SQLSTATE[HY000]: General error: 1 no such table: sessions (Connection: sqlite, SQL: select * from "sessions" where "id" = Qx63yRbkzg5HRTk6R9qJEtEhZ9ESL9CjDPlfKvBV limit 1)
