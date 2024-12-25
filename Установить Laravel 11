@@ -137,4 +137,4 @@ php artisan --version
          ]);
      }
 
-dd(Hash::check('your_password', $user->password));
+dd(Hash::check($credentials['password'], $user->password));
