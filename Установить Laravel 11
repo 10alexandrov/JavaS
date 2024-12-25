@@ -119,12 +119,20 @@ php artisan --version
 Вы увидите: `Laravel Framework 11.x.x`.
 
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+     public function store(Request $request)
+     {
+         $request->validate([
+             'name' => 'required|string',
+             'password' => 'required|string',
+         ]);
+
+         if (Auth::attempt(['name' => $request->name, 'password' => $request->password], $request->boolean('remember'))) {
+             $request->session()->regenerate();
+
+             return redirect()->intended(route('dashboard', absolute: false));
+         }
+
+         return back()->withErrors([
+             'name' => __('auth.failed'),
+         ]);
+     }
