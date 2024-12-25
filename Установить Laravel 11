@@ -184,3 +184,9 @@ AWS_BUCKET=
 AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
+
+alumno@alumno-vbox:~/Desktop/miniprometeoXX/miniprometeoXX$ php artisan migrate
+
+   Illuminate\Database\QueryException 
+
+  could not find driver (Connection: mysql, SQL: select exists (select 1 from information_schema.tables where table_schema = 'miniprometeo' and table_name = 'migrations' and table_type in ('BASE TABLE', 'SYSTEM VERSIONED')) as `exists`)
