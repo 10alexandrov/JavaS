@@ -136,3 +136,5 @@ php artisan --version
              'name' => __('auth.failed'),
          ]);
      }
+
+$this->provider->validateCredentials($user, $credentials);
