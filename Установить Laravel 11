@@ -119,20 +119,12 @@ php artisan --version
 Вы увидите: `Laravel Framework 11.x.x`.
 
 
-public function store(Request $request)
-{
-    $request->validate([
-        'login' => 'required|string',
-        'password' => 'required|string',
-    ]);
-
-    if (Auth::attempt(['login' => $request->login, 'password' => $request->password], $request->boolean('remember'))) {
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
-    }
-
-    return back()->withErrors([
-        'login' => __('auth.failed'),
-    ]);
-}
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
