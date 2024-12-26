@@ -143,3 +143,10 @@ Target class [check.processor] does not exist.
 'check.processor' => \App\Http\Middleware\CheckProcessorSerial::class,
 
 App\Http\Middleware\CheckProcessorSerial {#1252} // app/Http/Controllers/Auth/AuthenticatedSessionController.php:40
+
+Route::get('/test', function () {
+    $middleware = app(\App\Http\Middleware\CheckProcessorSerial::class);
+    return $middleware->handle(request(), function () {
+        return 'Middleware is working!';
+    });
+});
