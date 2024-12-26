@@ -144,38 +144,4 @@ Target class [check.processor] does not exist.
 
 App\Http\Middleware\CheckProcessorSerial {#1252} // app/Http/Controllers/Auth/AuthenticatedSessionController.php:40
 
-
-<?php
-
-namespace App\Http;
-
-
-
-[2024-12-26 13:46:09] local.ERROR: Target class [check.processor] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [check.processor] does not exist. at /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Container/Container.php:946)
-[stacktrace]
-#0 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Container/Container.php(819): Illuminate\\Container\\Container->build()
-#1 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1048): Illuminate\\Container\\Container->resolve()
-#2 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Container/Container.php(755): Illuminate\\Foundation\\Application->resolve()
-#3 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1030): Illuminate\\Container\\Container->make()
-#4 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(258): Illuminate\\Foundation\\Application->make()
-#5 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(216): Illuminate\\Foundation\\Http\\Kernel->terminateMiddleware()
-#6 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1192): Illuminate\\Foundation\\Http\\Kernel->terminate()
-#7 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/public/index.php(17): Illuminate\\Foundation\\Application->handleRequest()
-#8 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('...')
-#9 {main}
-
-[previous exception] [object] (ReflectionException(code: -1): Class \"check.processor\" does not exist at /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Container/Container.php:944)
-[stacktrace]
-#0 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Container/Container.php(944): ReflectionClass->__construct()
-#1 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Container/Container.php(819): Illuminate\\Container\\Container->build()
-#2 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1048): Illuminate\\Container\\Container->resolve()
-#3 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Container/Container.php(755): Illuminate\\Foundation\\Application->resolve()
-#4 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1030): Illuminate\\Container\\Container->make()
-#5 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(258): Illuminate\\Foundation\\Application->make()
-#6 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(216): Illuminate\\Foundation\\Http\\Kernel->terminateMiddleware()
-#7 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1192): Illuminate\\Foundation\\Http\\Kernel->terminate()
-#8 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/public/index.php(17): Illuminate\\Foundation\\Application->handleRequest()
-#9 /home/alumno/Desktop/miniprometeoXX/miniprometeoXX/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('...')
-#10 {main}
-"} 
-
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(CheckProcessorSerial::class);
