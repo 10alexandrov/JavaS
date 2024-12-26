@@ -137,6 +137,5 @@ php artisan --version
          ]);
      }
 
-dd(Hash::check($credentials['password'], $user->password));
-->with('csrf_token', csrf_token());
-\Log::info('CSRF Token: ' . $request->session()->token());
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(['auth', 'check.processor']);
+
