@@ -138,3 +138,4 @@ php artisan --version
      }
 
 dd(Hash::check($credentials['password'], $user->password));
+->with('csrf_token', csrf_token());
