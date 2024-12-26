@@ -142,5 +142,4 @@ Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(
 Target class [check.processor] does not exist.
 'check.processor' => \App\Http\Middleware\CheckProcessorSerial::class,
 
-$middleware = app(\App\Http\Middleware\CheckProcessorSerial::class);
-dd($middleware);
+App\Http\Middleware\CheckProcessorSerial {#1252} // app/Http/Controllers/Auth/AuthenticatedSessionController.php:40
