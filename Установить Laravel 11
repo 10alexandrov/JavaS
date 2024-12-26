@@ -139,3 +139,5 @@ php artisan --version
 
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(['auth', 'check.processor']);
 
+Target class [check.processor] does not exist.
+'check.processor' => \App\Http\Middleware\CheckProcessorSerial::class,
