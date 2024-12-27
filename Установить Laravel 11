@@ -137,7 +137,5 @@ php artisan --version
          ]);
      }
 
-$app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
-    'check.processor' => App\Http\Middleware\CheckProcessorSerial::class,
-]);
+Route::get('/home', [HomeController::class, 'index'])->name('home') ->middleware(['auth', 'verified']);
+
