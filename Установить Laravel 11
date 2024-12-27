@@ -143,4 +143,6 @@ foreach ($guards as $guard) {
         dd("Authenticated via $guard guard", app('auth')->guard($guard)->user());
     }
 }
+
+dd(app('auth')->guard()->getName());
 dd('No guards authenticated the user.');
