@@ -137,7 +137,10 @@ php artisan --version
          ]);
      }
 
-Route::get('/home', [HomeController::class, 'index'])->name('home') ->middleware(['auth', 'verified']);
-
-$guard = Auth::getDefaultDriver();
-dd($guard);
+$guards = array_keys(config('auth.guards'));
+foreach ($guards as $guard) {
+    if (app('auth')->guard($guard)->check()) {
+        dd("Authenticated via $guard guard", app('auth')->guard($guard)->user());
+    }
+}
+dd('No guards authenticated the user.');
