@@ -151,14 +151,4 @@ dd('No guards authenticated the user.');
 
 $this->auth->guard($guard)->check()
 
-array:4 [▼ // vendor/laravel/framework/src/Illuminate/Auth/SessionGuard.php:408
-  "_token" => "O7ttRCD9lxKQiiWB6Th1eQGqLMaLbOVa05cMhHDu"
-  "_flash" => array:2 [▶]
-  "_previous" => array:1 [▶]
-  "login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d" => "miniprometeo"
-]
-
-array:2 [▼ // vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php:93
-  "_token" => "MkWuh94FY8XNahrhzCxkpRuwvipZFjNuObBIPgAd"
-  "_flash" => array:2 [▶]
-]
+Log::info('Cookies:', request()->cookies->all());
