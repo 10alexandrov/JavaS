@@ -137,10 +137,7 @@ php artisan --version
          ]);
      }
 
-    public function handle($request, Closure $next, ...$guards)
-    {
-
-        $this->authenticate($request, $guards); 
-
-        return $next($request);
-    }
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'check.processor' => App\Http\Middleware\CheckProcessorSerial::class,
+]);
