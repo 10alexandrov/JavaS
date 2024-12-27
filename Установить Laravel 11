@@ -139,3 +139,5 @@ php artisan --version
 
 Route::get('/home', [HomeController::class, 'index'])->name('home') ->middleware(['auth', 'verified']);
 
+$guard = Auth::getDefaultDriver();
+dd($guard);
