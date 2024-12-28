@@ -156,4 +156,10 @@ Log::info('Cookies:', request()->cookies->all());
 [2024-12-27 22:14:44] local.INFO: Cookies: {"XSRF-TOKEN":"Zq7EVj584VtRKr7OD5X1xQXomKjoHIN8zVA4v89E","laravel_session":"u0sZ6pboPAo2z6KTXLg67vijet5KPWFApgozVTCy"} 
 
 
-$this->updateSession($user->getAuthIdentifier());
+    protected function updateSession($id)
+    {
+        $this->session->put($this->getName(), $id);
+
+        $this->session->migrate(true);
+
+    }
