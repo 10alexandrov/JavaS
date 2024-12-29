@@ -9,7 +9,7 @@
 - **Web-сервер** (например, Apache или Nginx)
 - **MySQL/MariaDB/PostgreSQL** (или другая база данных)
 
-#### Установите PHP 8.2 и дополнительные модули:
+#### Установите PHP 8.2 и дополнительные модули: 
 ```bash
 sudo apt update
 sudo apt install php8.2 php8.2-cli php8.2-fpm php8.2-mbstring php8.2-xml php8.2-bcmath php8.2-curl php8.2-zip unzip curl
