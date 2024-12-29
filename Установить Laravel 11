@@ -119,49 +119,25 @@ php artisan --version
 Вы увидите: `Laravel Framework 11.x.x`.
 
 
-     public function store(Request $request)
-     {
-         $request->validate([
-             'name' => 'required|string',
-             'password' => 'required|string',
-         ]);
+<?php
 
-         if (Auth::attempt(['name' => $request->name, 'password' => $request->password], $request->boolean('remember'))) {
-             $request->session()->regenerate();
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckProcessorSerial;
 
-             return redirect()->intended(route('dashboard', absolute: false));
-         }
-
-         return back()->withErrors([
-             'name' => __('auth.failed'),
-         ]);
-     }
-
-$guards = array_keys(config('auth.guards'));
-foreach ($guards as $guard) {
-    if (app('auth')->guard($guard)->check()) {
-        dd("Authenticated via $guard guard", app('auth')->guard($guard)->user());
-    }
-}
-
-dd(app('auth')->guard()->getName());
-dd('No guards authenticated the user.');
-
-"login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d"
-
-$this->auth->guard($guard)->check()
-request()->cookies->get('laravel_session')
-Log::info('Cookies:', request()->cookies->all());
-[2024-12-27 22:14:44] local.INFO: Cookies: {"XSRF-TOKEN":"MkWuh94FY8XNahrhzCxkpRuwvipZFjNuObBIPgAd","laravel_session":"7Tu9tTz7CBYnu6YhTqAiAYGbcOmCwX37xwEx20h1"} 
-[2024-12-27 22:14:44] local.INFO: Cookies: {"XSRF-TOKEN":"Zq7EVj584VtRKr7OD5X1xQXomKjoHIN8zVA4v89E","laravel_session":"u0sZ6pboPAo2z6KTXLg67vijet5KPWFApgozVTCy"} 
-
-
-    protected function updateSession($id)
-    {
-        $this->session->put($this->getName(), $id);
-
-        $this->session->migrate(true);
-
-    }
-
-"login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d" => "miniprometeo"
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware -> append('checkSerialNumber', [
+            CheckProcessorSerial::class
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();
